@@ -52,10 +52,14 @@ const SenderInfo = (props) => {
         <Box p={3}>
           <CustomSummary
             avatar={
-              <CustomAvatar size={40} src={from.profile_pic} alt={from.name} />
+              <CustomAvatar
+                size={40}
+                src={from?.profile_pic}
+                alt={from?.name}
+              />
             }
-            title={from.name}
-            subTitle={from.email}
+            title={from?.name}
+            subTitle={from?.email}
             showItemBadge={false}
             anchorOrigin={{
               vertical: "top",
@@ -87,7 +91,7 @@ const SenderInfo = (props) => {
           <Box ml={1}>
             <IconButton
               onClick={() => {
-                onClickSendMail({ email: from.email, name: from.name });
+                onClickSendMail({ email: from[0]?.email, name: from[0]?.name });
               }}
             >
               <MailIcon sx={{ display: "block" }} />

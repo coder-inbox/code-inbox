@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { registerUser, userLogin } from "./actions";
+import { userLogin, userGetToken } from "./actions";
 
 import storage from "redux-persist/lib/storage";
 // initialize token from local storage
@@ -11,6 +11,7 @@ const initialState = {
   loading: false,
   currentUser: null,
   token: token,
+  auth_url: null,
   error: null,
   success: false,
   message: "",
@@ -39,29 +40,30 @@ const authReducer = createSlice({
     });
     builder.addCase(userLogin.fulfilled, (state, action) => {
       state.loading = false;
-      state.currentUser = action.payload.user;
-      state.token = action.payload.token;
+      state.auth_url = action.payload.auth_url;
       state.message = action.payload.message;
     });
     builder.addCase(userLogin.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload;
-      state.message = "";
+      state.message = "Network Error";
     });
-    builder.addCase(registerUser.pending, (state, _action) => {
+    builder.addCase(userGetToken.pending, (state, _action) => {
       state.loading = true;
       state.error = null;
       state.message = "";
     });
-    builder.addCase(registerUser.fulfilled, (state, action) => {
+    builder.addCase(userGetToken.fulfilled, (state, action) => {
       state.loading = false;
       state.success = true;
-      state.message = action.payload.message;
+      // TODO: fix this
+      state.currentUser = JSON.parse(localStorage.getItem("user"));
+      // state.message = action.payload.message;
     });
-    builder.addCase(registerUser.rejected, (state, action) => {
+    builder.addCase(userGetToken.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload;
-      state.message = "";
+      state.message = "An error has occurred!";
     });
   },
 });

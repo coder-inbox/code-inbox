@@ -11,7 +11,6 @@ import ConnectionCell from "./ConnectionCell";
 import {
   getConnectionsList,
   getLabelsList,
-  getMailCounts,
   setFilterType,
 } from "@app/store/mailAppReducer/actions";
 import AddLabel from "./AddLabel";
@@ -40,7 +39,7 @@ const folderList = [
 
 const filterOptions = [
   { id: 1, name: "Important", slug: "important", icon: <LabelImportantIcon /> },
-  { id: 2, name: "Favorite", slug: "favorite", icon: <StarIcon /> },
+  { id: 2, name: "Starred", slug: "starred", icon: <StarIcon /> },
 ];
 
 const Sidebar = ({ width, onOpenComposeDialog, onClickSendMail }) => {
@@ -49,7 +48,6 @@ const Sidebar = ({ width, onOpenComposeDialog, onClickSendMail }) => {
     labelsList,
     connectionsList,
     filterType,
-    mailsList,
     selectedMail,
     counter,
   } = useSelector(({ mailApp }) => mailApp);
@@ -60,10 +58,6 @@ const Sidebar = ({ width, onOpenComposeDialog, onClickSendMail }) => {
     dispatch(getLabelsList());
     dispatch(getConnectionsList());
   }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(getMailCounts());
-  }, [dispatch, mailsList, selectedMail]);
 
   const onChangeFolder = (folder) => {
     dispatch(
@@ -104,7 +98,7 @@ const Sidebar = ({ width, onOpenComposeDialog, onClickSendMail }) => {
   return (
     <Box
       sx={{
-        width: 256,
+        width: width,
         borderRight: `solid 1px ${theme.palette.borderColor.main}`,
         overflowY: "auto",
         transition: "all 0.3s ease",
@@ -123,7 +117,7 @@ const Sidebar = ({ width, onOpenComposeDialog, onClickSendMail }) => {
           color="primary"
           onClick={() => onOpenComposeDialog()}
           sx={{
-            width: "100%",
+            width: width > 100 ? "100%" : "inherit",
             padding: "8px 16px",
             overflow: "hidden",
           }}
@@ -134,7 +128,7 @@ const Sidebar = ({ width, onOpenComposeDialog, onClickSendMail }) => {
             sx={{
               marginLeft: 10,
               transition: "all 0.3s ease",
-              opacity: 1,
+              opacity: width < 100 ? 0 : 1,
               visibility: "visible",
               whiteSpace: "nowrap",
               [theme.breakpoints.down("sm")]: {

@@ -2,7 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   toggleSidebarCollapsed as toggleSidebarCollapsedThunk,
   setFilterType as setFilterTypeThunk,
-  getMailCounts,
   getLabelsList,
   addNewLabel,
   deleteLabel,
@@ -27,6 +26,7 @@ const initialState = {
   isSideBarCollapsed: false,
   labelsList: [{ name: "log", color: "#333333" }],
   connectionsList: [],
+  allMailList: [],
   mailsList: [],
   filterType: {
     selectedFolder: "inbox",
@@ -36,12 +36,10 @@ const initialState = {
     page: 0,
   },
   selectedMail: null,
-  counter: null,
   totalMailCount: null,
   loading: {
     isSideBarCollapsed: false,
     setFilterType: false,
-    getMailCounts: false,
     getLabelsList: false,
     addNewLabel: false,
     deleteLabel: false,
@@ -64,7 +62,6 @@ const initialState = {
   error: {
     isSideBarCollapsed: null,
     setFilterType: null,
-    getMailCounts: null,
     getLabelsList: null,
     addNewLabel: null,
     deleteLabel: null,
@@ -95,9 +92,6 @@ const mailAppReducer = createSlice({
         action.payload !== undefined
           ? action.payload
           : !state.isSideBarCollapsed;
-    },
-    getMailCountsSuccess: (state, action) => {
-      state.counter = action.payload;
     },
     setFilterType: (state, action) => {
       state.filterType = action.payload;
@@ -208,21 +202,6 @@ const mailAppReducer = createSlice({
         state.error.isSideBarCollapsed = action.payload;
       });
 
-    // Async Thunk: getMailCounts
-    builder
-      .addCase(getMailCounts.pending, (state) => {
-        state.loading.getMailCounts = true;
-        state.error.getMailCounts = null;
-      })
-      .addCase(getMailCounts.fulfilled, (state, action) => {
-        state.loading.getMailCounts = false;
-        state.counter = action.payload;
-      })
-      .addCase(getMailCounts.rejected, (state, action) => {
-        state.loading.getMailCounts = false;
-        state.error.getMailCounts = action.payload;
-      });
-
     // Async Thunk: setFilterType
     builder
       .addCase(setFilterTypeThunk.pending, (state) => {
@@ -232,6 +211,59 @@ const mailAppReducer = createSlice({
       .addCase(setFilterTypeThunk.fulfilled, (state, action) => {
         state.loading.setFilterType = false;
         state.filterType = action.payload;
+        console.log(state.mailsList);
+        const filteredData = state.allMailList.filter((item) => {
+          const itemObject = Object.assign({}, item);
+
+          // Check if the outer "labels" array contains the desired label name
+          const outerLabelMatch = itemObject.labels.some(
+            (label) => label.name === action.payload.selectedFolder
+          );
+
+          // Check if the "starred" field in the outer object is true
+          const isOuterStarred =
+            item.starred === true &&
+            action.payload.selectedFilter === "starred";
+
+          // Check if the "messages" property exists and has at least one message
+          if (itemObject.messages && itemObject.messages.length > 0) {
+            // Convert each message to a plain object
+            itemObject.messages = itemObject.messages.map((message) =>
+              Object.assign({}, message)
+            );
+
+            // Check if any message within the "messages" array has the desired label name
+            const innerLabelMatch = itemObject.messages.some((message) => {
+              const isInnerStarred =
+                message.starred === true &&
+                action.payload.selectedFilter === "starred";
+              return (
+                (message.labels &&
+                  message.labels.some(
+                    (label) => label.name === action.payload.selectedFolder
+                  )) ||
+                isInnerStarred
+              );
+            });
+
+            // Return true if either outer or inner labels match the desired label name
+            return outerLabelMatch || innerLabelMatch || isOuterStarred;
+          }
+
+          // Return true if only outer labels match the desired label name
+          return outerLabelMatch || isOuterStarred;
+        });
+        function paginateArray(array, page, pageSize) {
+          const startIndex = page * pageSize;
+          const endIndex = startIndex + pageSize;
+          return array.slice(startIndex, endIndex);
+        }
+        const filteredArray = paginateArray(
+          filteredData,
+          state.filterType.page,
+          10
+        );
+        state.mailsList = filteredArray;
         state.selectedMail = null;
       })
       .addCase(setFilterTypeThunk.rejected, (state, action) => {
@@ -358,8 +390,11 @@ const mailAppReducer = createSlice({
       })
       .addCase(getMailsList.fulfilled, (state, action) => {
         state.loading.getMailsList = false;
-        state.mailsList = action.payload.list;
-        state.totalMailCount = action.payload.total;
+        if (state.mailsList?.length === 0) {
+          state.mailsList = action.payload;
+        }
+        state.allMailList = action.payload;
+        state.totalMailCount = action.payload.length;
         state.selectedMail = null;
       })
       .addCase(getMailsList.rejected, (state, action) => {
@@ -547,7 +582,6 @@ const mailAppReducer = createSlice({
 
 export const {
   toggleSidebarCollapsed,
-  getMailCountsSuccess,
   setFilterType,
   getLabelsListSuccess,
   addLabelSuccess,

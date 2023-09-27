@@ -26,7 +26,6 @@ const ProfileDetail = ({
 }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [edit, setEdit] = React.useState(false);
-  const [showPasswordDialog, setShowPasswordDialog] = React.useState(false);
   const theme = useTheme();
   const dispatch = useDispatch();
 
@@ -40,14 +39,6 @@ const ProfileDetail = ({
 
   const handleEditClose = () => {
     setEdit(false);
-  };
-
-  const handleShowPasswordDialog = () => {
-    setShowPasswordDialog(false);
-  };
-
-  const onResetSubmit = () => {
-    setShowPasswordDialog(true);
   };
 
   const updateStatus = (status) => {
@@ -179,26 +170,6 @@ const ProfileDetail = ({
             secondary={user?.phone_number}
           />
         </ListItem>
-        {currentUser && (
-          <ListItem sx={{ borderBottom: "none" }}>
-            <Box ml={0}>
-              <Box>
-                <Button
-                  variant="contained"
-                  color="success"
-                  onClick={onResetSubmit}
-                >
-                  Reset Password
-                </Button>
-              </Box>
-              <Box mt={3}>
-                <Button variant="contained" color="error" onClick={onSubmit}>
-                  Sign Out
-                </Button>
-              </Box>
-            </Box>
-          </ListItem>
-        )}
       </List>
       <UserStatus
         anchorEl={anchorEl}

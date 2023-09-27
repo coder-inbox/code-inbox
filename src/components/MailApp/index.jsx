@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import AppHeader from "./AppHeader";
-import Sidebar from "./Sidebar";
-import MailsList from "./MailsList";
+import AppHeader from "@app/components/AppHeader";
+import Sidebar from "@app/components/Sidebar";
+import MailsList from "@app/components/MailsList";
 import {
   getConnectionsList,
   getLabelsList,
   toggleSidebarCollapsed,
 } from "@app/store/mailAppReducer/actions";
 
-import MailDetail from "./MailDetail";
-import ComposeMail from "./ComposeMail";
+import MailDetail from "@app/components/MailDetail";
+import ComposeMail from "@app/components/ComposeMail";
 
 const MailApp = () => {
   const dispatch = useDispatch();
@@ -50,7 +50,7 @@ const MailApp = () => {
 
   const handleViewModeChange = (mode) => {
     setViewMode(mode);
-    dispatch(toggleSidebarCollapsed(mode !== "detail"));
+    dispatch(toggleSidebarCollapsed(!isSideBarCollapsed));
   };
 
   return (
@@ -69,7 +69,6 @@ const MailApp = () => {
         handleViewModeChange={handleViewModeChange}
       />
       <Box
-        className={isSideBarCollapsed ? "collapsed" : ""}
         sx={{
           display: "flex",
           flexDirection: "row",
@@ -80,6 +79,7 @@ const MailApp = () => {
         <Sidebar
           onClickSendMail={onClickSendMail}
           onOpenComposeDialog={onOpenComposeDialog}
+          width={isSideBarCollapsed ? 70 : 300}
         />
         {selectedMail ? (
           <MailDetail onClickForwardMail={onClickForwardMail} />

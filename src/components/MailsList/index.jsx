@@ -19,16 +19,16 @@ const MailsList = ({
   viewMode,
 }) => {
   const dispatch = useDispatch();
-  const { loading, mailsList, labelsList, filterType } = useSelector(
+  const { loading, mailsList, labelsList } = useSelector(
     ({ mailApp }) => mailApp
   );
   const [checkedMails, setCheckedMails] = useState([]);
-  const totalMails = useMemo(() => mailsList.length, [mailsList]);
+  const totalMails = mailsList.length;
   const theme = useTheme();
 
   useEffect(() => {
-    dispatch(getMailsList(filterType));
-  }, [filterType, dispatch]);
+    dispatch(getMailsList());
+  }, [dispatch]);
 
   const onChangeCheckedMails = (isChecked, id) => {
     if (isChecked) {

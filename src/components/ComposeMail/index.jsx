@@ -13,7 +13,6 @@ import ClearIcon from "@mui/icons-material/Clear";
 import DeleteIcon from "@mui/icons-material/Delete";
 import LaunchIcon from "@mui/icons-material/Launch";
 import SendIcon from "@mui/icons-material/Send";
-import { useDispatch } from "react-redux";
 import { composeMail } from "@app/store/mailAppReducer/actions";
 import FilePicker from "../FilePicker";
 import AppTextInput from "@app/components/AppTextInput";
@@ -23,6 +22,7 @@ import CustomCardContent from "@app/components/CustomCardContent";
 import CustomCardHeader from "@app/components/CustomCardHeader";
 import EmojiPicker from "../MailDetail/EmojiPicker";
 import { alpha, useTheme } from "@mui/material/styles";
+import { useDispatch } from "react-redux";
 const ComposeMail = ({
   openDialog,
   onCloseComposeDialog,
@@ -41,6 +41,7 @@ const ComposeMail = ({
   const [showBcc, setShowBcc] = useState(false);
   const [attachments, setAttachments] = useState([]);
   const [minimise, setMinimise] = useState(false);
+  const [currentUser] = useState(JSON.parse(localStorage.getItem("user")));
 
   const [toError, setToError] = useState("");
   const [ccError, setCcError] = useState("");
@@ -131,11 +132,6 @@ const ComposeMail = ({
 
   const handleSubmit = () => {
     const mail = {
-      from: {
-        name: "Domnic Harris",
-        profile_pic: "",
-        email: "domnicharris@example.com",
-      },
       to,
       cc,
       bcc,

@@ -2,10 +2,10 @@ import React, { useContext, useEffect } from "react";
 import Box from "@mui/material/Box";
 import { useDispatch, useSelector } from "react-redux";
 import { replyToMail } from "@app/store/mailAppReducer/actions";
-import MailLabels from "../MailsList/MailLabels";
+import MailLabels from "@app/components/MailsList/MailLabels";
 import CustomSummary from "@app/components/CustomSummary";
 import CustomAvatar from "@app/components/CustomAvatar";
-import { getDateinDesiredFormat, isToday } from "@app/utils/dateHelper";
+import { formatPreviewDate } from "@app/utils/dateHelper";
 import Typography from "@mui/material/Typography";
 import ReplyMailForm from "./ReplyMailForm";
 import DetailHeader from "./DetailHeader";
@@ -15,36 +15,16 @@ import PropTypes from "prop-types";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import ReplyIcon from "@mui/icons-material/Reply";
 import Chip from "@mui/material/Chip";
+import { useTheme } from "@mui/material/styles";
 import PhotoIcon from "@mui/icons-material/Photo";
 import GetAppIcon from "@mui/icons-material/GetApp";
+import DOMPurify from "dompurify";
 
-const linkify = (inputText) => {
-  let replacedText, replacePattern1, replacePattern2, replacePattern3;
+export const cleanEmailBody = (body) => {
+  if (!body) return "";
 
-  //URLs starting with http://, https://, or ftp://
-  replacePattern1 =
-    /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\\/%?=~_|!:,.;]*[-A-Z0-9+&@#\\/%=~_|])/gim;
-  replacedText = inputText.replace(
-    replacePattern1,
-    '<a href="$1" target="_blank">$1</a>'
-  );
-
-  //URLs starting with "www." (without // before it, or it'd re-link the ones done above).
-  replacePattern2 = /(^|[^\\/])(www\.[\S]+(\b|$))/gim;
-  replacedText = replacedText.replace(
-    replacePattern2,
-    '$1<a href="http://$2" target="_blank">$2</a>'
-  );
-
-  //Change email addresses to mailto:: links.
-  replacePattern3 =
-    /(([a-zA-Z0-9\-_.])+@[a-zA-Z0-9\\-]+?(\.[a-zA-Z]{2,6})+)/gim;
-  replacedText = replacedText.replace(
-    replacePattern3,
-    '<a href="mailto:$1">$1</a>'
-  );
-
-  return replacedText;
+  let cleanedBody = DOMPurify.sanitize(body, { USE_PROFILES: { html: true } });
+  return cleanedBody;
 };
 
 const MailDetail = ({ width, onClickForwardMail }) => {
@@ -55,14 +35,14 @@ const MailDetail = ({ width, onClickForwardMail }) => {
   const getSenderInfo = () => (
     <Box component="span" display="flex" alignItems="center">
       <Box component="span" fontSize={16}>
-        {selectedMail.from.name}
+        {selectedMail.from[0].name}
       </Box>
       <Box
         component="span"
         fontSize={12}
         ml={2}
         color="text.secondary"
-      >{`<${selectedMail.from.email}>`}</Box>
+      >{`<${selectedMail.from[0].email}>`}</Box>
     </Box>
   );
 
@@ -71,7 +51,7 @@ const MailDetail = ({ width, onClickForwardMail }) => {
   };
 
   const getMailDate = (date) => {
-    return isToday(date) ? "Today" : getDateinDesiredFormat(date, "MMM DD");
+    return formatPreviewDate(new Date(Math.floor(date * 1000)), true);
   };
 
   const downloadAttachment = () => {};
@@ -79,7 +59,7 @@ const MailDetail = ({ width, onClickForwardMail }) => {
   const onShowAttachments = (attachments) => {
     return (
       <Box sx={{ display: "flex", flexWrap: "wrap" }}>
-        {attachments.map((item, index) => (
+        {attachments?.map((item, index) => (
           <Chip
             label={item.file.name}
             key={index}
@@ -93,18 +73,14 @@ const MailDetail = ({ width, onClickForwardMail }) => {
     );
   };
 
-  const { subject, labels, from, to, date, message, replyThread, attachments } =
+  const { subject, labels, from, to, date, body, replyThread, attachments } =
     selectedMail;
 
   return (
     <>
-      <DetailHeader
-        classes={classes}
-        selectedMail={selectedMail}
-        labelsList={labelsList}
-      />
-
       <PerfectScrollbar style={{ flex: 1, "& > div": { height: "100%" } }}>
+        <DetailHeader selectedMail={selectedMail} labelsList={labelsList} />
+
         <Box sx={{ display: "flex", flexDirection: "column" }}>
           <Box
             sx={{
@@ -191,31 +167,27 @@ const MailDetail = ({ width, onClickForwardMail }) => {
                     visibility: "hidden",
                   }}
                 >
-                  <IconButton onClick={() => onClickForwardMail(message)}>
+                  <IconButton onClick={() => onClickForwardMail(body)}>
                     <ReplyIcon />
                   </IconButton>
                 </Box>
                 <Box
                   sx={{
-                    mb: attachments.length > 0 ? 8 : 0,
-                    p: { xs: 20, sm: 40, xl: "80%" },
+                    mb: attachments?.length > 0 ? 8 : 0,
                   }}
                   component="p"
                   dangerouslySetInnerHTML={{
-                    __html: linkify(
-                      message.replace(/(?:\r\n|\r|\n)/g, "<br />")
-                    ),
+                    __html: cleanEmailBody(body),
                   }}
                 />
 
-                {attachments.length > 0 && onShowAttachments(attachments)}
+                {attachments?.length > 0 && onShowAttachments(attachments)}
               </Box>
             </Box>
 
-            {replyThread.map((reply, index) => (
+            {replyThread?.map((reply, index) => (
               <MailReply
                 key={index}
-                classes={classes}
                 reply={reply}
                 getMailDate={getMailDate}
                 onShowAttachments={onShowAttachments}

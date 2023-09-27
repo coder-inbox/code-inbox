@@ -14,8 +14,11 @@ import {
 import EmailIcon from "@mui/icons-material/Email";
 import EmojiObjectsIcon from "@mui/icons-material/EmojiObjects";
 import CodeIcon from "@mui/icons-material/Code";
+import { useNavigate } from "react-router-dom";
 
 const Banner = () => {
+  const navigate = useNavigate();
+
   const theme = useTheme();
 
   const heroData = {
@@ -142,7 +145,7 @@ const Banner = () => {
                 ))}
               </List>
               <Button
-                href="#"
+                onClick={() => navigate("/login")}
                 sx={{
                   margin: theme.spacing(10, 0),
                   display: "inline-block",

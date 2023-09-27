@@ -13,7 +13,7 @@ import Menu from "@mui/material/Menu";
 import PropTypes from "prop-types";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { useTheme } from "@mui/material/styles";
+import { alpha, useTheme } from "@mui/material/styles";
 
 const DetailHeader = ({ selectedMail, labelsList }) => {
   const dispatch = useDispatch();
@@ -49,7 +49,7 @@ const DetailHeader = ({ selectedMail, labelsList }) => {
   };
 
   const onUpdateFvrtStatus = () => {
-    const mail = { ...selectedMail, favorite: !selectedMail.favorite };
+    const mail = { ...selectedMail, favorite: !selectedMail.starred };
     dispatch(updateMailsFolder(mail));
     onHideMoreOptions();
   };

@@ -15,7 +15,7 @@ import MoveToInboxIcon from "@mui/icons-material/MoveToInbox";
 import SendIcon from "@mui/icons-material/Send";
 import DraftsIcon from "@mui/icons-material/Drafts";
 import PropTypes from "prop-types";
-import { useTheme } from "@mui/material/styles";
+import { alpha, useTheme } from "@mui/material/styles";
 
 const folderList = [
   { id: 1, name: "Inbox", slug: "inbox", icon: <MoveToInboxIcon /> },
@@ -103,7 +103,7 @@ const HeaderOptions = ({
           sx={{
             width: "1px",
             height: "36px",
-            backgroundColor: theme.alpha(theme.palette.common.dark, 0.12),
+            backgroundColor: alpha(theme.palette.common.dark, 0.12),
             ml: 4,
           }}
         />

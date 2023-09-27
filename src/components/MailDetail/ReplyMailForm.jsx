@@ -52,105 +52,100 @@ const ReplyMailForm = ({ onClickReplyMail }) => {
   };
 
   return (
-    <Box
-      sx={{
-        marginTop: "auto",
-        padding: "20px 36px",
-        borderTop: `1px solid ${theme.palette.borderColor.main}`,
-        [theme.breakpoints.down("xs")]: {
-          paddingLeft: 20,
-          paddingRight: 20,
-        },
-      }}
-    >
+    <Box>
+      {attachments.length > 0 && (
+        <Box
+          sx={{
+            display: "flex",
+          }}
+        >
+          {attachments.map((item, index) => (
+            <Chip
+              key={index}
+              label={item.file.name}
+              onDelete={() => onDeleteAttachments(item.id)}
+            />
+          ))}
+        </Box>
+      )}
       <Box
         sx={{
-          position: "relative",
+          marginTop: "auto",
+          padding: "20px 36px",
+          borderTop: `1px solid ${theme.palette.borderColor.main}`,
           display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          [theme.breakpoints.down("xs")]: {
+            paddingLeft: 20,
+            paddingRight: 20,
+          },
         }}
       >
         <Box
           sx={{
-            mr: { md: 2 },
-            mt: -1,
+            position: "relative",
+            display: "flex",
+            flex: "1",
           }}
         >
-          <EmojiPicker onPickEmoji={onPickEmoji} />
-        </Box>
-        <Box sx={{ width: 1 }}>
-          <AppTextInput
-            multiline
-            rows={3}
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            margin="normal"
-            placeholder="Send a reply..."
+          <Box
             sx={{
-              margin: 0,
-              "& .MuiInput-root": {
-                padding: 10,
-                "&:before, &:after": {
-                  display: "none",
-                },
+              display: "flex",
+              mr: { md: 2 },
+              mt: -1,
+            }}
+          >
+            <EmojiPicker onPickEmoji={onPickEmoji} />
+          </Box>
+          <Box sx={{ width: 1 }}>
+            <AppTextInput
+              multiline
+              rows={3}
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              margin="normal"
+              placeholder="Send a reply..."
+              sx={{
+                margin: 0,
+              }}
+            />
+          </Box>
+        </Box>
+
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-end",
+          }}
+        >
+          <Box
+            sx={{
+              mr: 2,
+              "& .dropzone": {
+                padding: 0,
+                border: "0 none",
+                backgroundColor: "transparent",
               },
             }}
-          />
-
-          {attachments.length > 0 && (
-            <Box
-              sx={{
-                display: "flex",
-                flexWrap: "wrap",
-                marginBottom: 8,
-                "& .MuiChip-root": {
-                  marginBottom: 8,
-                  marginRight: 8,
-                },
-              }}
-            >
-              {attachments.map((item, index) => (
-                <Chip
-                  key={index}
-                  label={item.file.name}
-                  onDelete={() => onDeleteAttachments(item.id)}
-                />
-              ))}
-            </Box>
-          )}
+          >
+            <FilePicker onAddAttachments={onAddAttachments} />
+          </Box>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={onClickSend}
+            disabled={!message && attachments.length === 0}
+            sx={{
+              "& .MuiSvgIcon-root": {
+                marginRight: 6,
+              },
+            }}
+          >
+            <SendIcon /> Send
+          </Button>
         </Box>
-      </Box>
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "flex-end",
-        }}
-      >
-        <Box
-          sx={{
-            mr: 2,
-            "& .dropzone": {
-              padding: 0,
-              border: "0 none",
-              backgroundColor: "transparent",
-            },
-          }}
-        >
-          <FilePicker onAddAttachments={onAddAttachments} />
-        </Box>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={onClickSend}
-          disabled={!message && attachments.length === 0}
-          sx={{
-            "& .MuiSvgIcon-root": {
-              marginRight: 6,
-            },
-          }}
-        >
-          <SendIcon /> Send
-        </Button>
       </Box>
     </Box>
   );

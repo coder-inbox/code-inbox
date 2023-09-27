@@ -17,18 +17,6 @@ export const setFilterType = createAsyncThunk(
   }
 );
 
-export const getMailCounts = createAsyncThunk(
-  "mailbox/getMailCounts",
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await axios.get(`${baseURL}/counter`);
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(error.response?.data || "Something went wrong");
-    }
-  }
-);
-
 export const getLabelsList = createAsyncThunk(
   "mailbox/getLabelsList",
   async (_, { rejectWithValue }) => {
@@ -117,9 +105,17 @@ export const removeConnection = createAsyncThunk(
 
 export const getMailsList = createAsyncThunk(
   "mailbox/getMailsList",
-  async (params, { rejectWithValue }) => {
+  async (token, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${baseURL}/mails`, { params });
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: JSON.parse(localStorage.getItem("token")),
+          email: JSON.parse(localStorage.getItem("user")).email,
+        },
+      };
+      const response = await axios.get(`${baseURL}/nylas/read-emails`, config);
+
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || "Something went wrong");
@@ -188,10 +184,21 @@ export const updateImprtntStatus = createAsyncThunk(
 );
 
 export const composeMail = createAsyncThunk(
-  "mailbox/composeMail",
+  "nylas/send-email",
   async (mail, { getState, rejectWithValue }) => {
     try {
-      const response = await axios.post(`${baseURL}/mail`, { mail });
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: JSON.parse(localStorage.getItem("token")),
+          email: JSON.parse(localStorage.getItem("user")).email,
+        },
+      };
+      const response = await axios.post(
+        `${baseURL}/nylas/send-email`,
+        mail,
+        config
+      );
       if (getState().mailbox.filterType.selectedFolder === "sent") {
         return response.data;
       }
@@ -205,9 +212,16 @@ export const getSelectedMail = createAsyncThunk(
   "mailbox/getSelectedMail",
   async (mailId, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${baseURL}/mail`, {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: JSON.parse(localStorage.getItem("token")),
+          email: JSON.parse(localStorage.getItem("user")).email,
+        },
         params: { mailId },
-      });
+      };
+      const response = await axios.get(`${baseURL}/nylas/mail`, config);
+      console.log(response);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || "Something went wrong");

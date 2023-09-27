@@ -1,10 +1,11 @@
 import React, { lazy, Suspense, useEffect, useState } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { userLogin } from "@app/store/authReducer/actions";
 import { red } from "@mui/material/colors";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { indigo, pink } from "@mui/material/colors";
+import { useNylas } from "@nylas/nylas-react";
+import { userGetToken } from "@app/store/authReducer/actions";
 
 const theme = createTheme({
   breakpoints: {
@@ -222,31 +223,91 @@ const darkTheme = createTheme({
 });
 
 const App = () => {
-  const { loading, userInfo, error } = useSelector((state) => state.auth);
+  const { loading, currentUser, error } = useSelector((state) => state.auth);
+  const [currentAuthUser, setCurrentAuthUser] = useState(currentUser);
   const [currentTheme, setCurrentTheme] = useState("light");
 
   const dispatch = useDispatch();
-
-  const submitForm = (data) => {
-    dispatch(userLogin({ email: "test", password: "test" }));
-  };
-
   const Landing = lazy(() => import("@app/pages/Landing"));
+  const Login = lazy(() => import("@app/pages/Login"));
+  const MailApp = lazy(() => import("@app/pages/MailApp"));
+
+  const nylas = useNylas();
 
   useEffect(() => {
     setCurrentTheme(localStorage.getItem("theme"));
-  }, [dispatch, localStorage.getItem("user"), localStorage.getItem("theme")]);
+  }, [dispatch, localStorage.getItem("theme")]);
+
+  useEffect(() => {
+    setCurrentAuthUser(JSON.parse(localStorage.getItem("user")));
+  }, []);
+
+  useEffect(() => {
+    if (!nylas) {
+      return;
+    }
+    const params = new URLSearchParams(window.location.search);
+    if (params.has("code")) {
+      dispatch(userGetToken({ nylas: nylas }));
+    }
+  }, [nylas]);
 
   return (
     <ThemeProvider theme={currentTheme === "light" ? theme : darkTheme}>
       <Suspense>
         <Routes>
-          <Route exact path="/" element={<Landing />} />
+          <Route
+            exact
+            path="/"
+            element={
+              <>
+                {currentAuthUser ? (
+                  <Navigate to={"/mail"} replace />
+                ) : (
+                  <Landing />
+                )}
+              </>
+            }
+          />
+          <Route
+            exact
+            path="/mail"
+            element={<>{currentAuthUser ? <MailApp /> : <Login />}</>}
+          />
+          <Route
+            exact
+            path="/login"
+            element={
+              <>
+                {currentAuthUser ? (
+                  <Navigate to={"/mail"} replace />
+                ) : (
+                  <Login />
+                )}
+              </>
+            }
+          />
           <Route exact path="/home" element={<Navigate to={"/"} replace />} />
+          <Route path="/:url*" element={<RedirectToNylas />} />
         </Routes>
       </Suspense>
     </ThemeProvider>
   );
 };
 
+function RedirectToNylas() {
+  // A hack to redirect to nylas api
+  // Get the current URL from window.location.href
+  const currentUrl = window.location.href;
+  // Extract the URL part between quotation marks
+  const parts = currentUrl.split("%22");
+
+  if (parts.length >= 2) {
+    const extractedContent = parts[1];
+    // Redirect to the extracted URL
+    window.location.href = extractedContent;
+  }
+
+  return null;
+}
 export default App;

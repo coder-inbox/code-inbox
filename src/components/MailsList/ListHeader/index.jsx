@@ -21,7 +21,7 @@ const selectCategories = [
   { id: 1, label: "Important", slug: "important" },
   { id: 2, label: "Read", slug: "read" },
   { id: 3, label: "Unread", slug: "unread" },
-  { id: 4, label: "Favorite", slug: "favorite" },
+  { id: 4, label: "Starred", slug: "starred" },
 ];
 
 const onSelectMails = (category, mails) => {
@@ -36,15 +36,15 @@ const onSelectMails = (category, mails) => {
       break;
     }
     case "read": {
-      selectedMails = mails.filter((mail) => mail.read);
+      selectedMails = mails.filter((mail) => !mail.unread);
       break;
     }
     case "unread": {
-      selectedMails = mails.filter((mail) => !mail.read);
+      selectedMails = mails.filter((mail) => mail.unread);
       break;
     }
-    case "favorite": {
-      selectedMails = mails.filter((mail) => mail.favorite);
+    case "starred": {
+      selectedMails = mails.filter((mail) => mail.starred);
       break;
     }
     default:
@@ -82,7 +82,6 @@ const ListHeader = ({ checkedMails, setCheckedMails }) => {
   };
 
   const onSelectLabel = (label) => {
-    console.log(label);
     dispatch(updateMailsLabel(checkedMails, label));
     setCheckedMails([]);
   };
@@ -161,7 +160,7 @@ const ListHeader = ({ checkedMails, setCheckedMails }) => {
               page={filterType.page}
               backIconButtonProps={{ "aria-label": "Previous Page" }}
               nextIconButtonProps={{ "aria-label": "Next Page" }}
-              onChangePage={onPageChange}
+              onPageChange={onPageChange}
               rowsPerPageOptions={[]}
             />
           ) : null}

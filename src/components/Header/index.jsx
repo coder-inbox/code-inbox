@@ -23,7 +23,7 @@ import { useNavigate } from "react-router-dom";
 
 import { useDropzone } from "react-dropzone";
 
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import ScrollToTop from "./ScrollToTop";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import Fab from "@mui/material/Fab";
@@ -40,9 +40,8 @@ function Header(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const [edit, setEdit] = React.useState(false);
-  const { loading, userInfo, error } = useSelector((state) => state.auth);
-  const [currentAuthUser, setCurrentAuthUser] = React.useState(userInfo);
-  const [authorDetails, setAuthorDetails] = React.useState(userInfo);
+  const { loading, currentUser, error } = useSelector((state) => state.auth);
+  const [currentAuthUser, setCurrentAuthUser] = React.useState(currentUser);
 
   const [darkTheme, setDarkTheme] = useState(() => {
     const savedTheme = localStorage.getItem("theme");
@@ -55,18 +54,12 @@ function Header(props) {
     localStorage.setItem("theme", newTheme);
   };
 
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const theme = useTheme();
 
-  const handleConnectClick = (event) => {
+  const handleLogInClick = (event) => {
     setDisableLoader(true);
-    const accountInfo = JSON.parse(localStorage.getItem("userInfo"));
-    if (accountInfo) {
-      dispatch(userLogin({ email: "test@test.com", password: "test" }));
-    } else {
-      // TODO: Register user
-    }
+    navigate("/login");
   };
   const handleCreateClick = (event) => {
     navigate("/mail");
@@ -99,7 +92,8 @@ function Header(props) {
         navigate("/mail");
         break;
       case 3:
-        // handle logout
+        localStorage.clear();
+        navigate("/");
         break;
       default:
         break;
@@ -117,8 +111,7 @@ function Header(props) {
   });
 
   useEffect(() => {
-    setCurrentAuthUser(localStorage.getItem("token"));
-    setAuthorDetails(JSON.parse(localStorage.getItem("wallet")));
+    setCurrentAuthUser(JSON.parse(localStorage.getItem("user")));
     setDisableLoader(false);
     // eslint-disable-next-line
   }, [localStorage.getItem("token")]);
@@ -129,7 +122,8 @@ function Header(props) {
         <CustomElevator {...props}>
           <AppBar
             sx={{
-              alignItems: "center",
+              alignItems: currentAuthUser ? "right" : "center",
+              justifyContent: "",
               color: theme.palette.primary.main,
               backgroundColor: "rgba(33,36,40,1)",
             }}
@@ -139,10 +133,10 @@ function Header(props) {
               <Typography
                 variant="h6"
                 noWrap
-                component="a"
-                href="/"
+                onClick={() => navigate("/")}
                 sx={{
                   mr: 2,
+                  cursor: "pointer",
                   display: { md: "flex" },
                   fontFamily: "sans",
                   fontWeight: 700,
@@ -155,43 +149,45 @@ function Header(props) {
               >
                 Code Inbox
               </Typography>
-              <Box
-                sx={{
-                  flexGrow: 1,
-                  display: { xs: "none", md: "flex" },
-                  ml: "400px",
-                }}
-              >
-                {sections.map((page) => (
-                  <Button
-                    key={page}
-                    onClick={handleCloseNavMenu}
-                    sx={{ my: 2, color: "white", display: "block" }}
-                  >
-                    <Link
-                      underline="none"
-                      color="inherit"
-                      href={`#${page}`.toLowerCase()}
-                      sx={{
-                        fontWeight: 700,
-                        "&:hover": {
-                          cursor: "pointer",
-                          color: theme.palette.primary.main,
-                          textDecoration: "none",
-                          borderBottomWidth: "100%",
-                          borderBottomStyle: "solid",
-                          paddingBottom: "1px",
-                          listStyleType: "none",
-                          position: "relative",
-                          bottom: "4px",
-                        },
-                      }}
+              {!currentAuthUser ? (
+                <Box
+                  sx={{
+                    flexGrow: 1,
+                    display: { xs: "none", md: "flex" },
+                    ml: "400px",
+                  }}
+                >
+                  {sections.map((page) => (
+                    <Button
+                      key={page}
+                      onClick={handleCloseNavMenu}
+                      sx={{ my: 2, color: "white", display: "block" }}
                     >
-                      {page}
-                    </Link>
-                  </Button>
-                ))}
-              </Box>
+                      <Link
+                        underline="none"
+                        color="inherit"
+                        href={`#${page}`.toLowerCase()}
+                        sx={{
+                          fontWeight: 700,
+                          "&:hover": {
+                            cursor: "pointer",
+                            color: theme.palette.primary.main,
+                            textDecoration: "none",
+                            borderBottomWidth: "100%",
+                            borderBottomStyle: "solid",
+                            paddingBottom: "1px",
+                            listStyleType: "none",
+                            position: "relative",
+                            bottom: "4px",
+                          },
+                        }}
+                      >
+                        {page}
+                      </Link>
+                    </Button>
+                  ))}
+                </Box>
+              ) : null}
 
               <IconButton
                 onClick={toggleDarkTheme}
@@ -209,7 +205,7 @@ function Header(props) {
                     <IconButton onClick={handleOpenUserMenu} sx={{ ml: 20 }}>
                       <Avatar
                         alt="user name"
-                        src={authorDetails?.author_avatar}
+                        src={currentAuthUser?.author_avatar}
                       />
                     </IconButton>
                   </Tooltip>
@@ -283,8 +279,8 @@ function Header(props) {
                         >
                           <CustomAvatar
                             src={
-                              authorDetails?.author_avatar
-                                ? authorDetails?.author_avatar
+                              currentAuthUser?.author_avatar
+                                ? currentAuthUser?.author_avatar
                                 : ""
                             }
                           />
@@ -296,27 +292,30 @@ function Header(props) {
                             variant="h6"
                             sx={{ color: "#fff" }}
                           >
-                            {authorDetails?.first_name
-                              ? authorDetails?.first_name
+                            {currentAuthUser?.first_name
+                              ? currentAuthUser?.first_name
                               : ""}
                           </Typography>
                           <Typography
                             className="user-sub-title"
                             component="span"
                           >
-                            {authorDetails?.bio
-                              ? authorDetails?.bio.substring(0, 30) + "..."
+                            {currentAuthUser?.bio
+                              ? currentAuthUser?.bio.substring(0, 30) + "..."
                               : ""}
                           </Typography>
                         </Box>
                       </Box>
-                      <ProfileDetail currentUser="true" user={authorDetails} />
+                      <ProfileDetail
+                        currentUser="true"
+                        user={currentAuthUser}
+                      />
                     </Box>
                   </Popover>
                 </Box>
               ) : (
                 <Button
-                  onClick={handleConnectClick}
+                  onClick={handleLogInClick}
                   sx={{
                     right: "0px",
                     color: theme.palette.primary.main,
@@ -345,74 +344,76 @@ function Header(props) {
                   Log In
                 </Button>
               )}
-              <Box sx={{ flexGrow: 1, display: { sm: "flex", md: "none" } }}>
-                <IconButton
-                  size="large"
-                  aria-label="account of current user"
-                  aria-controls="menu-appbar"
-                  aria-haspopup="true"
-                  onClick={handleOpenNavMenu}
-                  color="inherit"
-                >
-                  <MenuIcon />
-                </IconButton>
-                <Menu
-                  id="menu-appbar"
-                  anchorEl={anchorElNav}
-                  anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "left",
-                  }}
-                  keepMounted
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "left",
-                  }}
-                  open={Boolean(anchorElNav)}
-                  onClose={handleCloseNavMenu}
-                  sx={{
-                    display: { xs: "block", sm: "block", md: "none" },
-                  }}
-                >
-                  {sections.map((page) => (
-                    <MenuItem
-                      key={page}
-                      onClick={handleCloseNavMenu}
-                      sx={{
-                        padding: "10px 30px",
-                        backgroundColor: "rgba(33, 36, 40, 1)",
-                        color: "#fff",
-                        "&:hover": {
-                          cursor: "pointer",
-                          color: theme.palette.primary.main,
-                        },
-                      }}
-                    >
-                      <Link
-                        underline="none"
-                        color="inherit"
-                        href={`#${page}`.toLowerCase()}
+              {!currentAuthUser ? (
+                <Box sx={{ flexGrow: 1, display: { sm: "flex", md: "none" } }}>
+                  <IconButton
+                    size="large"
+                    aria-label="account of current user"
+                    aria-controls="menu-appbar"
+                    aria-haspopup="true"
+                    onClick={handleOpenNavMenu}
+                    color="inherit"
+                  >
+                    <MenuIcon />
+                  </IconButton>
+                  <Menu
+                    id="menu-appbar"
+                    anchorEl={anchorElNav}
+                    anchorOrigin={{
+                      vertical: "bottom",
+                      horizontal: "left",
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "left",
+                    }}
+                    open={Boolean(anchorElNav)}
+                    onClose={handleCloseNavMenu}
+                    sx={{
+                      display: { xs: "block", sm: "block", md: "none" },
+                    }}
+                  >
+                    {sections.map((page) => (
+                      <MenuItem
+                        key={page}
+                        onClick={handleCloseNavMenu}
                         sx={{
-                          fontWeight: 700,
+                          padding: "10px 30px",
+                          backgroundColor: "rgba(33, 36, 40, 1)",
+                          color: "#fff",
                           "&:hover": {
                             cursor: "pointer",
                             color: theme.palette.primary.main,
-                            textDecoration: "none",
-                            borderBottomWidth: "100%",
-                            borderBottomStyle: "solid",
-                            paddingBottom: "1px",
-                            listStyleType: "none",
-                            position: "relative",
-                            bottom: "4px",
                           },
                         }}
                       >
-                        {page}
-                      </Link>
-                    </MenuItem>
-                  ))}
-                </Menu>
-              </Box>
+                        <Link
+                          underline="none"
+                          color="inherit"
+                          href={`#${page}`.toLowerCase()}
+                          sx={{
+                            fontWeight: 700,
+                            "&:hover": {
+                              cursor: "pointer",
+                              color: theme.palette.primary.main,
+                              textDecoration: "none",
+                              borderBottomWidth: "100%",
+                              borderBottomStyle: "solid",
+                              paddingBottom: "1px",
+                              listStyleType: "none",
+                              position: "relative",
+                              bottom: "4px",
+                            },
+                          }}
+                        >
+                          {page}
+                        </Link>
+                      </MenuItem>
+                    ))}
+                  </Menu>
+                </Box>
+              ) : null}
             </Toolbar>
           </AppBar>
         </CustomElevator>

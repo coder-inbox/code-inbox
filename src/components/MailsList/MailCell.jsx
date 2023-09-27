@@ -10,7 +10,7 @@ import {
 } from "@app/store/mailAppReducer/actions";
 import MailLabels from "./MailLabels";
 import Typography from "@mui/material/Typography";
-import { getDateinDesiredFormat } from "@app/utils/dateHelper";
+import { formatPreviewDate } from "@app/utils/dateHelper";
 import SenderInfo from "./SenderInfo";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
@@ -42,7 +42,7 @@ const MailCell = ({
   };
 
   const onGetMailDetail = () => {
-    dispatch(getSelectedMail(mail.id));
+    dispatch(getSelectedMail(mail.messages[0].id));
   };
 
   const onMoveMail = (folder) => {
@@ -52,8 +52,16 @@ const MailCell = ({
   const onClickFavoriteIcon = (status) => {
     dispatch(updateFvrtStatus([mail.id], status));
   };
-
-  const { id, from, subject, message, read, labels, date, favorite } = mail;
+  const getMailDate = (date) => {
+    return formatPreviewDate(new Date(Math.floor(date * 1000)), true);
+  };
+  const from = mail.messages[0]?.from;
+  const subject = mail.messages[0]?.subject;
+  const snippet = mail.messages[0]?.snippet;
+  const read = mail.messages[0]?.read;
+  const date = mail.messages[0]?.date ?? "";
+  const starred = mail.messages[0]?.starred;
+  const { labels } = mail;
 
   return (
     <Box
@@ -63,7 +71,7 @@ const MailCell = ({
         display: "flex",
         flexDirection: "column",
         padding: "16px 24px 16px 18px",
-        width: "100%",
+        width: { lg: "100%", md: "90%", sm: "90%" },
         position: "relative",
         overflow: "hidden",
         cursor: "pointer",
@@ -127,7 +135,9 @@ const MailCell = ({
         <Checkbox
           color="primary"
           checked={checkedMails.includes(mail.id)}
-          onChange={(event) => onChangeCheckedMails(event.target.checked, id)}
+          onChange={(event) =>
+            onChangeCheckedMails(event.target.checked, mail.id)
+          }
           sx={{
             mr: { xs: 2, md: 4 },
             [(theme) => theme.breakpoints.up("md")]: {
@@ -151,8 +161,8 @@ const MailCell = ({
         >
           <CustomAvatar
             size={viewMode === "detail" ? 56 : 40}
-            src={from.profile_pic}
-            alt={from.name}
+            src={from?.profile_pic}
+            alt={from?.name}
             sx={{
               [(theme) => theme.breakpoints.down("xs")]: {
                 display: "none",
@@ -199,7 +209,7 @@ const MailCell = ({
                 color: (theme) => theme.palette.text.primary,
               }}
             >
-              {from.name}
+              {from?.name}
             </Typography>
           )}
           <Typography
@@ -226,7 +236,7 @@ const MailCell = ({
               fontWeight: (theme) => theme.typography.fontWeightBold,
             }}
           >
-            {message}
+            {snippet}
           </Typography>
         </Box>
       </Box>
@@ -244,7 +254,7 @@ const MailCell = ({
           [(theme) => theme.breakpoints.up("xl")]: {
             width: 250,
           },
-          [(theme) => theme.breakpoints.down("sm")]: {
+          [(theme) => theme.breakpoints.down("xs")]: {
             justifyContent: "flex-end",
           },
         }}
@@ -260,7 +270,7 @@ const MailCell = ({
             marginLeft: 10,
           }}
         >
-          {getDateinDesiredFormat(date, "MMM DD")}
+          {getMailDate(date)}
         </Box>
         <Box
           onClick={(e) => e.stopPropagation()}
@@ -302,7 +312,7 @@ const MailCell = ({
           <Tooltip title="Forward">
             <IconButton
               className="icon-btn"
-              onClick={() => onClickForwardMail(message)}
+              onClick={() => onClickForwardMail(snippet)}
             >
               <ReplyIcon />
             </IconButton>
@@ -315,7 +325,7 @@ const MailCell = ({
               <Checkbox
                 icon={<StarBorderIcon />}
                 checkedIcon={<StarIcon sx={{ color: "#FF8C00" }} />}
-                checked={favorite}
+                checked={starred}
                 onChange={(e) => onClickFavoriteIcon(e.target.checked)}
               />
             </IconButton>
