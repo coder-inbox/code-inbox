@@ -75,7 +75,7 @@ const Faq = () => {
             mt: theme.spacing(3),
           }}
         >
-          Frequently Asked Questions
+          ❓ Frequently Asked Questions
         </Typography>
         {faqData.map((item) => (
           <Box

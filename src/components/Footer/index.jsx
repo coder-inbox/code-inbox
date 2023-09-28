@@ -161,7 +161,9 @@ const Footer = () => {
                               color: theme.palette.primary.main,
                             },
                           }}
-                          to={item.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          href={item.link}
                         >
                           <ListItemText primary={item.text} />
                         </Link>
@@ -178,8 +180,8 @@ const Footer = () => {
         component="footer"
         sx={{
           borderTop: `1px solid ${theme.palette.divider}`,
-          color: theme.palette.text.secondary,
-          backgroundColor: theme.palette.background.paper,
+          color: "white",
+          backgroundColor: "rgba(33,36,40,1)",
         }}
       >
         <Container
@@ -198,9 +200,15 @@ const Footer = () => {
             }}
           >
             <Grid item md={3} sm={6} xs={6}>
-              <Box sx={{ display: "flex", flexDirection: "row" }}>
-                {/*TODO:insert logo here*/}
-                <Box component="span" sx={{ width: "140px" }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
+                <img src="/main-logo.png" alt="Code Inbox Logo" height="30px" />
+                <Box component="span" sx={{ ml: 5, width: "140px" }}>
                   2023 &copy; Code Inbox
                 </Box>
               </Box>
@@ -214,8 +222,7 @@ const Footer = () => {
                   marginRight: { xs: "20px" },
                 }}
               >
-                <IconButton
-                  onClick={() => window.open("", "_self")}
+                <Link
                   sx={{
                     cursor: "pointer",
                     p: "10px",
@@ -229,11 +236,13 @@ const Footer = () => {
                       backgroundColor: "#fff",
                     },
                   }}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={"https://twitter.com/wiseaidev"}
                 >
                   <TwitterIcon />
-                </IconButton>
-                <IconButton
-                  onClick={() => window.open("", "_self")}
+                </Link>
+                <Link
                   sx={{
                     cursor: "pointer",
                     p: "10px",
@@ -246,9 +255,12 @@ const Footer = () => {
                       backgroundColor: "#fff",
                     },
                   }}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={"https://www.linkedin.com/in/mahmoud-harmouch"}
                 >
                   <LinkedInIcon />
-                </IconButton>
+                </Link>
               </Box>
             </Grid>
           </Grid>

@@ -2,6 +2,7 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
+import Loading from "@app/pages/Loading";
 import { NylasProvider } from "@nylas/nylas-react";
 import { store, persistor } from "@app/store/root";
 import App from "./App.jsx";
@@ -14,7 +15,7 @@ const SERVER_URL =
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
+      <PersistGate loading={<Loading />} persistor={persistor}>
         <NylasProvider serverBaseUrl={SERVER_URL}>
           <BrowserRouter>
             <App />

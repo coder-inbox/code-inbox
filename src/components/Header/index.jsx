@@ -129,7 +129,7 @@ function Header(props) {
             }}
           >
             <Toolbar id="back-to-top-anchor">
-              {/*logo here*/}
+              <img src="/main-logo.png" alt="Code Inbox Logo" height="40px" />
               <Typography
                 variant="h6"
                 noWrap

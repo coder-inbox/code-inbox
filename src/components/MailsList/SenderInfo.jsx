@@ -7,8 +7,8 @@ import CustomSummary from "@app/components/CustomSummary";
 import CustomCard from "@app/components/CustomCard";
 import { useDispatch } from "react-redux";
 import {
-  addNewConnection,
-  removeConnection,
+  addNewContact,
+  removeContact,
 } from "@app/store/mailAppReducer/actions";
 import IconButton from "@mui/material/IconButton";
 import PropTypes from "prop-types";
@@ -29,9 +29,9 @@ const SenderInfo = (props) => {
 
   const onClickAddContact = () => {
     if (isConnected) {
-      dispatch(removeConnection(from));
+      dispatch(removeContact(from));
     } else {
-      dispatch(addNewConnection(from));
+      dispatch(addNewContact(from));
     }
   };
 

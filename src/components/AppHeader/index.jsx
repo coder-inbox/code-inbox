@@ -178,19 +178,18 @@ const AppHeader = ({ viewMode, handleViewModeChange }) => {
         <IconButton onClick={(e) => handleViewModeChange(e.target.value)}>
           <MenuIcon />
         </IconButton>
-        <Typography
-          variant="h1"
-          component="div"
+        <Box
+          component="img"
           sx={{
             color: theme.palette.text.primary,
+            height: "50px",
             cursor: "pointer",
             [theme.breakpoints.up("sm")]: {
               marginLeft: 8,
             },
           }}
-        >
-          Emails
-        </Typography>
+          src="/main-logo.png"
+        />
       </Box>
 
       <Box

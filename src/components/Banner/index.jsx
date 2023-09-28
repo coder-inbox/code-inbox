@@ -97,6 +97,7 @@ const Banner = () => {
         color: theme.palette.text.primary,
         backgroundColor: theme.palette.background.paper,
         padding: theme.spacing(10),
+        paddingTop: theme.spacing(50),
       }}
     >
       <Container>

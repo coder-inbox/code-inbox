@@ -140,14 +140,12 @@ const Login = () => {
               marginTop: theme.spacing(12),
             }}
           >
-            <Typography variant="body2">
-              POWERED BY{" "}
-              <img
-                src="/nylas-logo.svg"
-                alt="Nylas Logo"
-                style={{ marginLeft: theme.spacing(1), width: "60px" }}
-              />
-            </Typography>
+            POWERED BY{" "}
+            <img
+              src="/nylas-logo.png"
+              alt="Nylas Logo"
+              style={{ marginLeft: theme.spacing(12), width: "50px" }}
+            />
           </Box>
         </Paper>
       </Container>

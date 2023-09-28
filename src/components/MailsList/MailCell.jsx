@@ -75,9 +75,6 @@ const MailCell = ({
         position: "relative",
         overflow: "hidden",
         cursor: "pointer",
-        "&:not(:first-child)": {
-          borderTop: (theme) => `1px solid ${theme.palette.borderColor.main}`,
-        },
         "&:hover": {
           transform: "translateY(-4px)",
           backgroundColor: (theme) => theme.palette.primary.main + "0.04",

@@ -29,9 +29,9 @@ export const userGetToken = createAsyncThunk(
     try {
       nylas.exchangeCodeFromUrlForToken().then((data) => {
         const response = JSON.parse(data);
-        if (response?.user?.user) {
-          localStorage.setItem("user", JSON.stringify(response?.user?.user));
-          localStorage.setItem("token", JSON.stringify(response?.user?.token));
+        if (response?.user) {
+          localStorage.setItem("user", JSON.stringify(response?.user));
+          localStorage.setItem("token", JSON.stringify(response?.token));
         }
         return response?.user;
       });

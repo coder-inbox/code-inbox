@@ -21,7 +21,15 @@ export const getLabelsList = createAsyncThunk(
   "mailbox/getLabelsList",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${baseURL}/labels`);
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: JSON.parse(localStorage.getItem("token")),
+          email: JSON.parse(localStorage.getItem("user")).email,
+        },
+      };
+      const response = await axios.get(`${baseURL}/nylas/read-labels`, config);
+
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || "Something went wrong");
@@ -33,7 +41,18 @@ export const addNewLabel = createAsyncThunk(
   "mailbox/addNewLabel",
   async (label, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${baseURL}/labels`, { label });
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: JSON.parse(localStorage.getItem("token")),
+          email: JSON.parse(localStorage.getItem("user")).email,
+        },
+      };
+      const response = await axios.post(
+        `${baseURL}/nylas/labels`,
+        label,
+        config
+      );
       return label;
     } catch (error) {
       return rejectWithValue(error.response?.data || "Something went wrong");
@@ -45,7 +64,17 @@ export const deleteLabel = createAsyncThunk(
   "mailbox/deleteLabel",
   async (labelId, { rejectWithValue }) => {
     try {
-      await axios.put(`${baseURL}/labels/delete`, { labelId });
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: JSON.parse(localStorage.getItem("token")),
+          email: JSON.parse(localStorage.getItem("user")).email,
+        },
+      };
+      const response = await axios.delete(
+        `${baseURL}/nylas/labels/${labelId}`,
+        config
+      );
       return labelId;
     } catch (error) {
       return rejectWithValue(error.response?.data || "Something went wrong");
@@ -65,11 +94,11 @@ export const updateLabel = createAsyncThunk(
   }
 );
 
-export const getConnectionsList = createAsyncThunk(
-  "mailbox/getConnectionsList",
+export const getContactsList = createAsyncThunk(
+  "mailbox/getContactsList",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${baseURL}/connections`);
+      const response = await axios.get(`${baseURL}/contacts`);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || "Something went wrong");
@@ -77,12 +106,12 @@ export const getConnectionsList = createAsyncThunk(
   }
 );
 
-export const addNewConnection = createAsyncThunk(
-  "mailbox/addNewConnection",
-  async (connection, { rejectWithValue }) => {
+export const addNewContact = createAsyncThunk(
+  "mailbox/addNewContact",
+  async (contact, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${baseURL}/connections`, {
-        connection,
+      const response = await axios.post(`${baseURL}/contacts`, {
+        contact,
       });
       return response.data;
     } catch (error) {
@@ -91,12 +120,12 @@ export const addNewConnection = createAsyncThunk(
   }
 );
 
-export const removeConnection = createAsyncThunk(
-  "mailbox/removeConnection",
-  async (connection, { rejectWithValue }) => {
+export const removeContact = createAsyncThunk(
+  "mailbox/removeContact",
+  async (contact, { rejectWithValue }) => {
     try {
-      await axios.delete(`${baseURL}/connections`, { params: { connection } });
-      return connection;
+      await axios.delete(`${baseURL}/contacts`, { params: { contact } });
+      return contact;
     } catch (error) {
       return rejectWithValue(error.response?.data || "Something went wrong");
     }
@@ -125,10 +154,21 @@ export const getMailsList = createAsyncThunk(
 
 export const updateMailsFolder = createAsyncThunk(
   "mailbox/updateMailsFolder",
-  async (data, { rejectWithValue }) => {
+  async (mailIds, { rejectWithValue }) => {
     try {
-      await axios.put(`${baseURL}/mailApp/update-folder`, data);
-      return data.mailIds;
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: JSON.parse(localStorage.getItem("token")),
+          email: JSON.parse(localStorage.getItem("user")).email,
+        },
+      };
+      const response = await axios.put(
+        `${baseURL}/nylas/folders`,
+        mailIds,
+        config
+      );
+      return mailIds;
     } catch (error) {
       return rejectWithValue(error.response?.data || "Something went wrong");
     }

@@ -6,6 +6,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { indigo, pink } from "@mui/material/colors";
 import { useNylas } from "@nylas/nylas-react";
 import { userGetToken } from "@app/store/authReducer/actions";
+import Loading from "@app/pages/Loading";
 
 const theme = createTheme({
   breakpoints: {
@@ -225,12 +226,16 @@ const darkTheme = createTheme({
 const App = () => {
   const { loading, currentUser, error } = useSelector((state) => state.auth);
   const [currentAuthUser, setCurrentAuthUser] = useState(currentUser);
+  const [currentLanguage, setCurrentLanguage] = useState(null);
   const [currentTheme, setCurrentTheme] = useState("light");
 
   const dispatch = useDispatch();
   const Landing = lazy(() => import("@app/pages/Landing"));
   const Login = lazy(() => import("@app/pages/Login"));
   const MailApp = lazy(() => import("@app/pages/MailApp"));
+  const ProgrammingLanguages = lazy(() =>
+    import("@app/pages/ProgrammingLanguages")
+  );
 
   const nylas = useNylas();
 
@@ -240,6 +245,7 @@ const App = () => {
 
   useEffect(() => {
     setCurrentAuthUser(JSON.parse(localStorage.getItem("user")));
+    setCurrentLanguage(localStorage.getItem("language"));
   }, []);
 
   useEffect(() => {
@@ -251,18 +257,20 @@ const App = () => {
       dispatch(userGetToken({ nylas: nylas }));
     }
   }, [nylas]);
-
+  console.log(currentAuthUser);
   return (
-    <ThemeProvider theme={currentTheme === "light" ? theme : darkTheme}>
-      <Suspense>
+    <ThemeProvider theme={theme}>
+      <Suspense fallback={<Loading />}>
         <Routes>
           <Route
             exact
             path="/"
             element={
               <>
-                {currentAuthUser ? (
+                {currentLanguage && currentAuthUser ? (
                   <Navigate to={"/mail"} replace />
+                ) : !currentLanguage && currentAuthUser ? (
+                  <Navigate to={"/select"} replace />
                 ) : (
                   <Landing />
                 )}
@@ -273,6 +281,19 @@ const App = () => {
             exact
             path="/mail"
             element={<>{currentAuthUser ? <MailApp /> : <Login />}</>}
+          />
+          <Route
+            exact
+            path="/select"
+            element={
+              <>
+                {!currentLanguage && currentAuthUser ? (
+                  <ProgrammingLanguages />
+                ) : (
+                  <Login />
+                )}
+              </>
+            }
           />
           <Route
             exact
