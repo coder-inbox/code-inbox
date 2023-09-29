@@ -8,3 +8,19 @@
   margin: 0;
   padding: 0;
 }
+
+.banner-img {
+  animation: linear-move 5s infinite linear;
+}
+
+@keyframes linear-move {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}

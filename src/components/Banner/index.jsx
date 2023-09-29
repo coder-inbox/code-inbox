@@ -187,7 +187,7 @@ const Banner = () => {
                 },
               }}
             >
-              <img src="/banner.png" alt="" />
+              <img className="banner-img" src="/banner.png" alt="" />
             </Box>
           </Grid>
         </Grid>
