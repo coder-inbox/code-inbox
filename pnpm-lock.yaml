@@ -27,8 +27,8 @@ dependencies:
     specifier: ^1.5.0
     version: 1.5.0
   dompurify:
-    specifier: ^3.0.5
-    version: 3.0.5
+    specifier: ^3.0.6
+    version: 3.0.6
   emoji-picker-react:
     specifier: ^4.5.2
     version: 4.5.2(react@18.2.0)
@@ -1284,8 +1284,8 @@ packages:
       csstype: 3.1.2
     dev: false
 
-  /dompurify@3.0.5:
-    resolution: {integrity: sha512-F9e6wPGtY+8KNMRAVfxeCOHU0/NPWMSENNq4pQctuXRqqdEPW7q3CrLbR5Nse044WwacyjHGOMlvNsBe1y6z9A==}
+  /dompurify@3.0.6:
+    resolution: {integrity: sha512-ilkD8YEnnGh1zJ240uJsW7AzE+2qpbOUYjacomn3AvJ6J4JhKGSZ2nh4wUIXPZrEPppaCLx5jFe8T89Rk8tQ7w==}
     dev: false
 
   /emoji-picker-react@4.5.2(react@18.2.0):
