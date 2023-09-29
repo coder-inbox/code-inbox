@@ -3,7 +3,7 @@
 [![Demo on Cloudflare](https://badgen.net/badge/icon/cloudflare/green?icon=telegram&label=code-inbox)](https://code-inbox.com/)
 [![Tag](https://badgen.net/github/tag/wiseaidev/code-inbox)](https://github.com/wiseaidev/code-inbox/releases/tag/v0.1.0)
 
-![Code Inbox](./static/banner.png "Code Inbox")
+![Code Inbox](https://github.com/coder-inbox/.github/blob/main/profile/static/banner.png "Code Inbox")
 
 Code Inbox is a sophisticated email client meticulously designed to streamline the process of mastering algorithms, offering AI-generated algorithmic posts delivered directly to your inbox. This robust platform is not only user-friendly but also offers an elegant and intuitive interface, ensuring effortless email management.
 
