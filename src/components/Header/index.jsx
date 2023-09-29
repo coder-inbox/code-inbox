@@ -51,12 +51,12 @@ function Header(props) {
 
   const navigate = useNavigate();
   const theme = useTheme();
-  const dispatch = useDispatch()
-  
+  const dispatch = useDispatch();
+
   const toggleDarkTheme = () => {
     const newTheme = darkTheme ? "light" : "dark";
     setDarkTheme(newTheme === "dark");
-    dispatch(toggleTheme(newTheme))
+    dispatch(toggleTheme(newTheme));
   };
 
   const handleLogInClick = (event) => {

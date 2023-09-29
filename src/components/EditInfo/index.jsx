@@ -41,7 +41,8 @@ const EditInfo = ({ open, onCloseDialog }) => {
 
   const onSubmit = (event) => {
     event.preventDefault();
-    const { firstName, lastName, bio, programmingLanguage } = personalInfoValues;
+    const { firstName, lastName, bio, programmingLanguage } =
+      personalInfoValues;
 
     if (!firstName) {
       setErrorValues({
@@ -67,7 +68,7 @@ const EditInfo = ({ open, onCloseDialog }) => {
       dispatch(
         SetPersonalInfo({ firstName, lastName, bio, programmingLanguage })
       );
-      onCloseDialog()
+      onCloseDialog();
     }
   };
 
@@ -253,7 +254,10 @@ const EditInfo = ({ open, onCloseDialog }) => {
                       ...personalInfoValues,
                       programmingLanguage: e.target.value,
                     });
-                    setErrorValues({ ...errorValues, programmingLanguageError: "" });
+                    setErrorValues({
+                      ...errorValues,
+                      programmingLanguageError: "",
+                    });
                   }}
                   require
                 >

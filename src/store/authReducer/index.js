@@ -78,9 +78,9 @@ const authReducer = createSlice({
       state.loading = false;
       state.success = true;
       // TODO: fix this
-      state.currentUser = JSON.parse(localStorage.getItem("user"))
+      state.currentUser = JSON.parse(localStorage.getItem("user"));
       state.currentUser.profile_picture = action.payload.image;
-      localStorage.setItem("user", JSON.stringify(state.currentUser))
+      localStorage.setItem("user", JSON.stringify(state.currentUser));
       // state.message = action.payload.message;
     });
     builder.addCase(uploadPicture.rejected, (state, action) => {

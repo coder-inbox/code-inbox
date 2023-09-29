@@ -82,7 +82,7 @@ export const userLogout = createAsyncThunk(
       };
       const response = await axios.post(
         `${baseURL}/user/logout`,
-        {token: localStorage.getItem("token")},
+        { token: localStorage.getItem("token") },
         config
       );
       return response.data;
@@ -96,10 +96,12 @@ export const userLogout = createAsyncThunk(
   }
 );
 
-
 export const SetPersonalInfo = createAsyncThunk(
   "user/profile",
-  async ({ firstName, lastName, bio, programmingLanguage }, { rejectWithValue }) => {
+  async (
+    { firstName, lastName, bio, programmingLanguage },
+    { rejectWithValue }
+  ) => {
     try {
       const config = {
         headers: {
@@ -110,7 +112,11 @@ export const SetPersonalInfo = createAsyncThunk(
       };
       const response = await axios.put(
         `${baseURL}/user/profile`,
-        { full_name: `${firstName} ${lastName}`, bio: bio, programming_language: programmingLanguage },
+        {
+          full_name: `${firstName} ${lastName}`,
+          bio: bio,
+          programming_language: programmingLanguage,
+        },
         config
       );
       return response.data;

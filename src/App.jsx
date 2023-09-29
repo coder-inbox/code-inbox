@@ -225,7 +225,9 @@ const darkTheme = createTheme({
 });
 
 const App = () => {
-  const { loading, currentUser, error, selectedTheme } = useSelector((state) => state.auth);
+  const { loading, currentUser, error, selectedTheme } = useSelector(
+    (state) => state.auth
+  );
   const [currentAuthUser, setCurrentAuthUser] = useState(currentUser);
   const [currentLanguage, setCurrentLanguage] = useState(null);
   const [currentTheme, setCurrentTheme] = useState(selectedTheme);

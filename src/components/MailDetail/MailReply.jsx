@@ -76,9 +76,7 @@ const MailReply = ({
             }}
             component="p"
             dangerouslySetInnerHTML={{
-              __html: cleanEmailBody(
-                reply.message
-              ),
+              __html: cleanEmailBody(reply.message),
             }}
           />
         )}

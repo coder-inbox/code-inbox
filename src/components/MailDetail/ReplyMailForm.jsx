@@ -42,8 +42,8 @@ const ReplyMailForm = ({ threadId, onClickReplyMail }) => {
   const onClickSend = () => {
     if (message || attachments.length > 0) {
       const mail = {
-        "thread_id": threadId,
-        "body": message,
+        thread_id: threadId,
+        body: message,
       };
       onClickReplyMail(mail);
       setAttachments([]);

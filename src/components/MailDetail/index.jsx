@@ -195,7 +195,10 @@ const MailDetail = ({ width, onClickForwardMail }) => {
             ))}
           </Box>
 
-          <ReplyMailForm threadId={selectedMail.thread_id} onClickReplyMail={onClickReplyMail} />
+          <ReplyMailForm
+            threadId={selectedMail.thread_id}
+            onClickReplyMail={onClickReplyMail}
+          />
         </Box>
       </PerfectScrollbar>
     </>

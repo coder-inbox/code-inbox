@@ -15,10 +15,7 @@ import {
   setFilterType,
   toggleSidebarCollapsed,
 } from "@app/store/mailAppReducer/actions";
-import {
-  uploadPicture,
-  userLogout
-} from "@app/store/authReducer/actions";
+import { uploadPicture, userLogout } from "@app/store/authReducer/actions";
 import { useTheme } from "@mui/material/styles";
 
 import AppBar from "@mui/material/AppBar";
@@ -115,6 +112,7 @@ const AppHeader = ({ viewMode, handleViewModeChange }) => {
 
   const handleEditClose = () => {
     setEdit(false);
+    setAnchorElUser(null);
   };
   const handleUserMenuClick = (index) => {
     switch (index) {
@@ -125,7 +123,7 @@ const AppHeader = ({ viewMode, handleViewModeChange }) => {
         setEdit(true);
         break;
       case 2:
-        dispatch(userLogout())
+        dispatch(userLogout());
         break;
       default:
         break;
@@ -252,7 +250,10 @@ const AppHeader = ({ viewMode, handleViewModeChange }) => {
         <Box sx={{ flexGrow: 0 }}>
           <Tooltip title="Open settings">
             <IconButton onClick={handleOpenUserMenu} sx={{ ml: 7 }}>
-              <CustomAvatar alt="user name" src={currentAuthUser?.profile_picture} />
+              <CustomAvatar
+                alt="user name"
+                src={currentAuthUser?.profile_picture}
+              />
             </IconButton>
           </Tooltip>
           <Menu
@@ -349,7 +350,7 @@ const AppHeader = ({ viewMode, handleViewModeChange }) => {
           </Popover>
         </Box>
       </Box>
-      <EditInfo  open={edit} onCloseDialog={handleEditClose} />
+      <EditInfo open={edit} onCloseDialog={handleEditClose} />
     </Box>
   );
 };
