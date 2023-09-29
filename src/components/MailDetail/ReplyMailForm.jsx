@@ -45,7 +45,6 @@ const ReplyMailForm = ({ threadId, onClickReplyMail }) => {
         "thread_id": threadId,
         "body": message,
       };
-      console.log(mail)
       onClickReplyMail(mail);
       setAttachments([]);
       setMessage("");

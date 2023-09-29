@@ -15,6 +15,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Link from "@mui/material/Link";
 import { useTheme } from "@mui/material/styles";
 
+import { toggleTheme } from "@app/store/authReducer";
 import Popover from "@mui/material/Popover";
 
 import ProfileDetail from "../ProfileDetail";
@@ -23,7 +24,7 @@ import { useNavigate } from "react-router-dom";
 
 import { useDropzone } from "react-dropzone";
 
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import ScrollToTop from "./ScrollToTop";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import Fab from "@mui/material/Fab";
@@ -48,14 +49,15 @@ function Header(props) {
     return savedTheme === "dark" ? true : false;
   });
 
+  const navigate = useNavigate();
+  const theme = useTheme();
+  const dispatch = useDispatch()
+  
   const toggleDarkTheme = () => {
     const newTheme = darkTheme ? "light" : "dark";
     setDarkTheme(newTheme === "dark");
-    localStorage.setItem("theme", newTheme);
+    dispatch(toggleTheme(newTheme))
   };
-
-  const navigate = useNavigate();
-  const theme = useTheme();
 
   const handleLogInClick = (event) => {
     setDisableLoader(true);

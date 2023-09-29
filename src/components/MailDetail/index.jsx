@@ -31,7 +31,6 @@ const MailDetail = ({ width, onClickForwardMail }) => {
   const dispatch = useDispatch();
   const { selectedMail, labelsList } = useSelector(({ mailApp }) => mailApp);
   const theme = useTheme();
-  console.log(selectedMail)
   const getSenderInfo = () => (
     <Box component="span" display="flex" alignItems="center">
       <Box component="span" fontSize={16}>

@@ -6,6 +6,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { indigo, pink } from "@mui/material/colors";
 import { useNylas } from "@nylas/nylas-react";
 import { userGetToken } from "@app/store/authReducer/actions";
+
 import Loading from "@app/pages/Loading";
 
 const theme = createTheme({
@@ -224,10 +225,10 @@ const darkTheme = createTheme({
 });
 
 const App = () => {
-  const { loading, currentUser, error } = useSelector((state) => state.auth);
+  const { loading, currentUser, error, selectedTheme } = useSelector((state) => state.auth);
   const [currentAuthUser, setCurrentAuthUser] = useState(currentUser);
   const [currentLanguage, setCurrentLanguage] = useState(null);
-  const [currentTheme, setCurrentTheme] = useState("light");
+  const [currentTheme, setCurrentTheme] = useState(selectedTheme);
 
   const dispatch = useDispatch();
   const Landing = lazy(() => import("@app/pages/Landing"));
@@ -249,6 +250,14 @@ const App = () => {
   }, []);
 
   useEffect(() => {
+    if (selectedTheme === "light") {
+      setCurrentTheme("dark");
+    } else {
+      setCurrentTheme("light");
+    }
+  }, [selectedTheme]);
+
+  useEffect(() => {
     if (!nylas) {
       return;
     }
@@ -257,9 +266,8 @@ const App = () => {
       dispatch(userGetToken({ nylas: nylas }));
     }
   }, [nylas]);
-  console.log(currentAuthUser);
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={selectedTheme == "light" ? theme : darkTheme}>
       <Suspense fallback={<Loading />}>
         <Routes>
           <Route

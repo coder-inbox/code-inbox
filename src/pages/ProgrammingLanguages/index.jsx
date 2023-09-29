@@ -11,7 +11,7 @@ import {
   MenuItem,
 } from "@mui/material";
 
-const programmingLanguages = [
+export const programmingLanguages = [
   "JavaScript",
   "Python",
   "Java",
@@ -196,6 +196,7 @@ const ProgrammingLanguages = () => {
           variant="contained"
           color="primary"
           type="submit"
+          disabled={!selectedLanguage}
           sx={{ marginTop: 15 }}
         >
           Subscribe

@@ -211,7 +211,6 @@ const mailAppReducer = createSlice({
       .addCase(setFilterTypeThunk.fulfilled, (state, action) => {
         state.loading.setFilterType = false;
         state.filterType = action.payload;
-        console.log(state.mailsList);
         const filteredData = state.allMailList.filter((item) => {
           const itemObject = Object.assign({}, item);
 
@@ -298,7 +297,6 @@ const mailAppReducer = createSlice({
         const filteredLabels = action.payload.filter(
           (label) => !standard_labels.includes(label.name)
         );
-        console.log(filteredLabels);
         state.labelsList = filteredLabels;
       })
       .addCase(getLabelsList.rejected, (state, action) => {
@@ -317,7 +315,6 @@ const mailAppReducer = createSlice({
         action.payload.display_name = action.payload.name;
         delete action.payload.name;
         state.labelsList.push(action.payload);
-        console.log(state.labelsList);
       })
       .addCase(addNewLabel.rejected, (state, action) => {
         state.loading.addNewLabel = false;

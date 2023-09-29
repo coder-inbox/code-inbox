@@ -4,6 +4,7 @@ import { Avatar } from "@mui/material";
 import { componentColors } from "../Helper";
 
 const colorOptions = [...componentColors, "random"];
+const baseURL = process.env.VITE_SERVER_URL || "http://localhost:8000/api/v1";
 
 const getRandomColor = () => {
   return colorOptions[Math.floor(Math.random() * 11)];
@@ -82,7 +83,7 @@ const CustomAvatar = React.forwardRef(
         ? alt.substr(0, phCharLength).toUpperCase()
         : null;
 
-    src = `${process.env.VITE_SERVER_URL}/profile/${src}`;
+    src = `${baseURL}/${src}`;
 
     return (
       <Avatar

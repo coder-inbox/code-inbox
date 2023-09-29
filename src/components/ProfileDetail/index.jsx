@@ -49,11 +49,6 @@ const ProfileDetail = ({
     }
   };
 
-  const onSubmit = () => {
-    // TODO: Logout
-    window.location.reload();
-  };
-
   const handleEdit = () => {
     setEdit(true);
   };
