@@ -100,7 +100,11 @@ const LabelCell = ({ item, selectedItem, onChange }) => {
         </ListItemIcon>
         <ListItemText
           className="custom-nav-text"
-          primary={item.name}
+          primary={
+            item?.display_name.length > 10
+              ? `${item?.display_name.slice(0, 10)}...`
+              : item?.display_name
+          }
           sx={{
             marginLeft: 20,
             opacity: 1,

@@ -7,7 +7,6 @@ import CustomList from "@app/components/CustomList";
 import { getMailsList } from "@app/store/mailAppReducer/actions";
 import ListHeader from "./ListHeader";
 import PropTypes from "prop-types";
-import { getMailContainerHeight } from "@app/constants";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import ListEmptyResult from "@app/components/ListEmptyResult";
 import EmptyMailsResult from "./EmptyMailsResult";

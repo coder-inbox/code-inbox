@@ -5,7 +5,7 @@ import AppHeader from "@app/components/AppHeader";
 import Sidebar from "@app/components/Sidebar";
 import MailsList from "@app/components/MailsList";
 import {
-  getConnectionsList,
+  getContactsList,
   getLabelsList,
   toggleSidebarCollapsed,
 } from "@app/store/mailAppReducer/actions";
@@ -25,7 +25,7 @@ const MailApp = () => {
 
   useEffect(() => {
     dispatch(getLabelsList());
-    dispatch(getConnectionsList());
+    dispatch(getContactsList());
   }, [dispatch]);
 
   const onClickSendMail = (to) => {

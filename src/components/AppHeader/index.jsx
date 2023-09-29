@@ -15,6 +15,7 @@ import {
   setFilterType,
   toggleSidebarCollapsed,
 } from "@app/store/mailAppReducer/actions";
+import { uploadPicture, userLogout } from "@app/store/authReducer/actions";
 import { useTheme } from "@mui/material/styles";
 
 import AppBar from "@mui/material/AppBar";
@@ -28,8 +29,9 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import Link from "@mui/material/Link";
 
-import ProfileDetail from "../ProfileDetail";
-import CustomAvatar from "../CustomAvatar";
+import ProfileDetail from "@app/components/ProfileDetail";
+import CustomAvatar from "@app/components/CustomAvatar";
+import EditInfo from "@app/components/EditInfo";
 import { useNavigate } from "react-router-dom";
 
 import { useDropzone } from "react-dropzone";
@@ -46,14 +48,14 @@ const sections = ["Banner", "Features", "Services", "Team", "Faq"];
 const settings = ["View Profile", "Edit Profile", "Log out"];
 
 const AppHeader = ({ viewMode, handleViewModeChange }) => {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const [disableLoader, setDisableLoader] = React.useState(false);
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
+  const [disableLoader, setDisableLoader] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
 
-  const [edit, setEdit] = React.useState(false);
+  const [edit, setEdit] = useState(false);
   const { loading, currentUser, error } = useSelector((state) => state.auth);
-  const [currentAuthUser, setCurrentAuthUser] = React.useState(currentUser);
+  const [currentAuthUser, setCurrentAuthUser] = useState(currentUser);
 
   const { filterType } = useSelector(({ mailApp }) => mailApp);
   const { searchText } = filterType;
@@ -95,18 +97,6 @@ const AppHeader = ({ viewMode, handleViewModeChange }) => {
   const navigate = useNavigate();
   const theme = useTheme();
 
-  const handleConnectClick = (event) => {
-    setDisableLoader(true);
-    const accountInfo = JSON.parse(localStorage.getItem("user"));
-    if (accountInfo) {
-      dispatch(userLogin({ email: "test@test.com", password: "test" }));
-    } else {
-      // TODO: Register user
-    }
-  };
-  const handleCreateClick = (event) => {
-    navigate("/mail");
-  };
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -122,6 +112,7 @@ const AppHeader = ({ viewMode, handleViewModeChange }) => {
 
   const handleEditClose = () => {
     setEdit(false);
+    setAnchorElUser(null);
   };
   const handleUserMenuClick = (index) => {
     switch (index) {
@@ -132,10 +123,7 @@ const AppHeader = ({ viewMode, handleViewModeChange }) => {
         setEdit(true);
         break;
       case 2:
-        localStorage.clear();
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
+        dispatch(userLogout());
         break;
       default:
         break;
@@ -148,7 +136,7 @@ const AppHeader = ({ viewMode, handleViewModeChange }) => {
   const { getRootProps, getInputProps } = useDropzone({
     accept: "image/*",
     onDrop: (files) => {
-      // TODO: dispatch(uploadPicture(files[0]));
+      dispatch(uploadPicture(files[0]));
     },
   });
 
@@ -156,7 +144,7 @@ const AppHeader = ({ viewMode, handleViewModeChange }) => {
     setCurrentAuthUser(JSON.parse(localStorage.getItem("user")));
     setDisableLoader(false);
     // eslint-disable-next-line
-  }, [localStorage.getItem("token")]);
+  }, []);
   return (
     <Box
       sx={{
@@ -178,19 +166,18 @@ const AppHeader = ({ viewMode, handleViewModeChange }) => {
         <IconButton onClick={(e) => handleViewModeChange(e.target.value)}>
           <MenuIcon />
         </IconButton>
-        <Typography
-          variant="h1"
-          component="div"
+        <Box
+          component="img"
           sx={{
             color: theme.palette.text.primary,
+            height: "50px",
             cursor: "pointer",
             [theme.breakpoints.up("sm")]: {
               marginLeft: 8,
             },
           }}
-        >
-          Emails
-        </Typography>
+          src="/main-logo.png"
+        />
       </Box>
 
       <Box
@@ -263,7 +250,10 @@ const AppHeader = ({ viewMode, handleViewModeChange }) => {
         <Box sx={{ flexGrow: 0 }}>
           <Tooltip title="Open settings">
             <IconButton onClick={handleOpenUserMenu} sx={{ ml: 7 }}>
-              <Avatar alt="user name" src={currentAuthUser?.author_avatar} />
+              <CustomAvatar
+                alt="user name"
+                src={currentAuthUser?.profile_picture}
+              />
             </IconButton>
           </Tooltip>
           <Menu
@@ -331,8 +321,8 @@ const AppHeader = ({ viewMode, handleViewModeChange }) => {
                 <IconButton className="icon-btn-root" {...getRootProps()}>
                   <CustomAvatar
                     src={
-                      currentAuthUser?.author_avatar
-                        ? currentAuthUser?.author_avatar
+                      currentAuthUser?.profile_picture
+                        ? currentAuthUser?.profile_picture
                         : ""
                     }
                   />
@@ -360,6 +350,7 @@ const AppHeader = ({ viewMode, handleViewModeChange }) => {
           </Popover>
         </Box>
       </Box>
+      <EditInfo open={edit} onCloseDialog={handleEditClose} />
     </Box>
   );
 };

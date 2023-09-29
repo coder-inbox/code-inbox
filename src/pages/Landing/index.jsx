@@ -16,7 +16,7 @@ const Landing = () => {
     if (params.has("code")) {
       setTimeout(() => {
         window.location.reload();
-      }, 1000);
+      }, 5000);
     }
   }, []);
 

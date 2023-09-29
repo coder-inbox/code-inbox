@@ -49,11 +49,6 @@ const ProfileDetail = ({
     }
   };
 
-  const onSubmit = () => {
-    // TODO: Logout
-    window.location.reload();
-  };
-
   const handleEdit = () => {
     setEdit(true);
   };
@@ -137,7 +132,7 @@ const ProfileDetail = ({
           <ListItemText
             sx={{ color: theme.palette.text.primary }}
             primary="First Name"
-            secondary={user?.first_name}
+            secondary={user?.full_name?.split(" ").slice(0, 1).pop()}
           />
         </ListItem>
         <ListItem>
@@ -147,7 +142,7 @@ const ProfileDetail = ({
           <ListItemText
             sx={{ color: theme.palette.text.primary }}
             primary="Last Name"
-            secondary={user?.first_name}
+            secondary={user?.full_name?.split(" ").slice(1, 2).pop()}
           />
         </ListItem>
         <ListItem>

@@ -7,19 +7,19 @@ import List from "@mui/material/List";
 import { useTheme } from "@mui/material/styles";
 import CustomList from "@app/components/CustomList";
 import ItemCell from "./ItemCell";
-import ConnectionCell from "./ConnectionCell";
+import ContactCell from "./ContactCell";
 import {
-  getConnectionsList,
+  getContactsList,
   getLabelsList,
   setFilterType,
 } from "@app/store/mailAppReducer/actions";
 import AddLabel from "./AddLabel";
 import PropTypes from "prop-types";
 import PerfectScrollbar from "react-perfect-scrollbar";
-import { getAppSidebarHeight } from "@app/constants";
 import EditIcon from "@mui/icons-material/Edit";
 import LabelCell from "./LabelCell";
 import MoveToInboxIcon from "@mui/icons-material/MoveToInbox";
+import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import SendIcon from "@mui/icons-material/Send";
 import DraftsIcon from "@mui/icons-material/Drafts";
 import LabelImportantIcon from "@mui/icons-material/LabelImportant";
@@ -27,26 +27,34 @@ import StarIcon from "@mui/icons-material/Star";
 import ArchiveIcon from "@mui/icons-material/Archive";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ReportIcon from "@mui/icons-material/Report";
+import PersonalIcon from "@mui/icons-material/Person";
+import SocialIcon from "@mui/icons-material/People";
+import ForumsIcon from "@mui/icons-material/Forum";
+import EmailIcon from "@mui/icons-material/Email";
 
 const folderList = [
-  { id: 1, name: "Inbox", slug: "inbox", icon: <MoveToInboxIcon /> },
-  { id: 2, name: "Sent", slug: "sent", icon: <SendIcon /> },
-  { id: 3, name: "Drafts", slug: "drafts", icon: <DraftsIcon /> },
+  { id: 1, name: "All Mail", slug: "all", icon: <MailOutlineIcon /> },
+  { id: 2, name: "Inbox", slug: "inbox", icon: <MoveToInboxIcon /> },
+  { id: 3, name: "Sent", slug: "sent", icon: <SendIcon /> },
+  { id: 4, name: "Drafts", slug: "drafts", icon: <DraftsIcon /> },
   { id: 5, name: "Spam", slug: "spam", icon: <ReportIcon /> },
   { id: 6, name: "Trash", slug: "trash", icon: <DeleteIcon /> },
   { id: 7, name: "Archived", slug: "archived", icon: <ArchiveIcon /> },
+  { id: 8, name: "Promotions", slug: "promotions", icon: <EmailIcon /> },
+  { id: 9, name: "Personal", slug: "personal", icon: <PersonalIcon /> },
+  { id: 10, name: "Social", slug: "social", icon: <SocialIcon /> },
+  { id: 11, name: "Forums", slug: "forums", icon: <ForumsIcon /> },
 ];
 
 const filterOptions = [
-  { id: 1, name: "Important", slug: "important", icon: <LabelImportantIcon /> },
-  { id: 2, name: "Starred", slug: "starred", icon: <StarIcon /> },
+  { id: 1, name: "Starred", slug: "starred", icon: <StarIcon /> },
 ];
 
 const Sidebar = ({ width, onOpenComposeDialog, onClickSendMail }) => {
   const {
     isSideBarCollapsed,
     labelsList,
-    connectionsList,
+    contactsList,
     filterType,
     selectedMail,
     counter,
@@ -56,7 +64,7 @@ const Sidebar = ({ width, onOpenComposeDialog, onClickSendMail }) => {
 
   useEffect(() => {
     dispatch(getLabelsList());
-    dispatch(getConnectionsList());
+    dispatch(getContactsList());
   }, [dispatch]);
 
   const onChangeFolder = (folder) => {
@@ -264,15 +272,15 @@ const Sidebar = ({ width, onOpenComposeDialog, onClickSendMail }) => {
                 letterSpacing: 1.5,
               }}
             >
-              Connections
+              Contacts
             </Box>
           </ListItem>
 
           <CustomList
             style={{ marginBottom: 10 }}
-            data={connectionsList}
+            data={contactsList}
             renderRow={(item, index) => (
-              <ConnectionCell
+              <ContactCell
                 key={index}
                 item={item}
                 onClickSendMail={onClickSendMail}

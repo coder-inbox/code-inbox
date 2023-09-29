@@ -6,9 +6,9 @@ import {
   addNewLabel,
   deleteLabel,
   updateLabel,
-  getConnectionsList,
-  addNewConnection,
-  removeConnection,
+  getContactsList,
+  addNewContact,
+  removeContact,
   getMailsList,
   updateMailsFolder,
   updateMailsLabel,
@@ -24,8 +24,8 @@ import {
 
 const initialState = {
   isSideBarCollapsed: false,
-  labelsList: [{ name: "log", color: "#333333" }],
-  connectionsList: [],
+  labelsList: [],
+  contactsList: [],
   allMailList: [],
   mailsList: [],
   filterType: {
@@ -44,9 +44,9 @@ const initialState = {
     addNewLabel: false,
     deleteLabel: false,
     updateLabel: false,
-    getConnectionsList: false,
-    addNewConnection: false,
-    removeConnection: false,
+    getContactsList: false,
+    addNewContact: false,
+    removeContact: false,
     getMailsList: false,
     updateMailsFolder: false,
     updateMailsLabel: false,
@@ -66,9 +66,9 @@ const initialState = {
     addNewLabel: null,
     deleteLabel: null,
     updateLabel: null,
-    getConnectionsList: null,
-    addNewConnection: null,
-    removeConnection: null,
+    getContactsList: null,
+    addNewContact: null,
+    removeContact: null,
     getMailsList: null,
     updateMailsFolder: null,
     updateMailsLabel: null,
@@ -113,15 +113,15 @@ const mailAppReducer = createSlice({
         (item) => item.id !== action.payload
       );
     },
-    getConnectionsListSuccess: (state, action) => {
-      state.connectionsList = action.payload;
+    getContactsListSuccess: (state, action) => {
+      state.contactsList = action.payload;
     },
-    addConnectionSuccess: (state, action) => {
-      state.connectionsList.push(action.payload);
+    addContactSuccess: (state, action) => {
+      state.contactsList.push(action.payload);
     },
-    removeConnectionSuccess: (state, action) => {
-      state.connectionsList = state.connectionsList.filter(
-        (connection) => connection.email !== action.payload.email
+    removeContactSuccess: (state, action) => {
+      state.contactsList = state.contactsList.filter(
+        (contact) => contact.email !== action.payload.email
       );
     },
     getMailsListSuccess: (state, action) => {
@@ -211,7 +211,6 @@ const mailAppReducer = createSlice({
       .addCase(setFilterTypeThunk.fulfilled, (state, action) => {
         state.loading.setFilterType = false;
         state.filterType = action.payload;
-        console.log(state.mailsList);
         const filteredData = state.allMailList.filter((item) => {
           const itemObject = Object.assign({}, item);
 
@@ -279,11 +278,30 @@ const mailAppReducer = createSlice({
       })
       .addCase(getLabelsList.fulfilled, (state, action) => {
         state.loading.getLabelsList = false;
-        state.labelsList = action.payload;
+        // TODO: add all standard labels
+        const standard_labels = [
+          "promotions",
+          "all",
+          "drafts",
+          "spam",
+          "personal",
+          "important",
+          "updates",
+          "social",
+          "trash",
+          "forums",
+          "sent",
+          "inbox",
+        ];
+
+        const filteredLabels = action.payload.filter(
+          (label) => !standard_labels.includes(label.name)
+        );
+        state.labelsList = filteredLabels;
       })
       .addCase(getLabelsList.rejected, (state, action) => {
         state.loading.getLabelsList = false;
-        state.error.getLabelsList = action.payload;
+        state.error.getLabelsList = null;
       });
 
     // Async Thunk: addNewLabel
@@ -294,6 +312,8 @@ const mailAppReducer = createSlice({
       })
       .addCase(addNewLabel.fulfilled, (state, action) => {
         state.loading.addNewLabel = false;
+        action.payload.display_name = action.payload.name;
+        delete action.payload.name;
         state.labelsList.push(action.payload);
       })
       .addCase(addNewLabel.rejected, (state, action) => {
@@ -335,51 +355,51 @@ const mailAppReducer = createSlice({
         state.error.updateLabel = action.payload;
       });
 
-    // Async Thunk: getConnectionsList
+    // Async Thunk: getContactsList
     builder
-      .addCase(getConnectionsList.pending, (state) => {
-        state.loading.getConnectionsList = true;
-        state.error.getConnectionsList = null;
+      .addCase(getContactsList.pending, (state) => {
+        state.loading.getContactsList = true;
+        state.error.getContactsList = null;
       })
-      .addCase(getConnectionsList.fulfilled, (state, action) => {
-        state.loading.getConnectionsList = false;
-        state.connectionsList = action.payload;
+      .addCase(getContactsList.fulfilled, (state, action) => {
+        state.loading.getContactsList = false;
+        state.contactsList = action.payload;
       })
-      .addCase(getConnectionsList.rejected, (state, action) => {
-        state.loading.getConnectionsList = false;
-        state.error.getConnectionsList = action.payload;
+      .addCase(getContactsList.rejected, (state, action) => {
+        state.loading.getContactsList = false;
+        state.error.getContactsList = action.payload;
       });
 
-    // Async Thunk: addNewConnection
+    // Async Thunk: addNewContact
     builder
-      .addCase(addNewConnection.pending, (state) => {
-        state.loading.addNewConnection = true;
-        state.error.addNewConnection = null;
+      .addCase(addNewContact.pending, (state) => {
+        state.loading.addNewContact = true;
+        state.error.addNewContact = null;
       })
-      .addCase(addNewConnection.fulfilled, (state, action) => {
-        state.loading.addNewConnection = false;
-        state.connectionsList.push(action.payload);
+      .addCase(addNewContact.fulfilled, (state, action) => {
+        state.loading.addNewContact = false;
+        state.contactsList.push(action.payload);
       })
-      .addCase(addNewConnection.rejected, (state, action) => {
-        state.loading.addNewConnection = false;
-        state.error.addNewConnection = action.payload;
+      .addCase(addNewContact.rejected, (state, action) => {
+        state.loading.addNewContact = false;
+        state.error.addNewContact = action.payload;
       });
 
-    // Async Thunk: removeConnection
+    // Async Thunk: removeContact
     builder
-      .addCase(removeConnection.pending, (state) => {
-        state.loading.removeConnection = true;
-        state.error.removeConnection = null;
+      .addCase(removeContact.pending, (state) => {
+        state.loading.removeContact = true;
+        state.error.removeContact = null;
       })
-      .addCase(removeConnection.fulfilled, (state, action) => {
-        state.loading.removeConnection = false;
-        state.connectionsList = state.connectionsList.filter(
-          (connection) => connection.email !== action.payload.email
+      .addCase(removeContact.fulfilled, (state, action) => {
+        state.loading.removeContact = false;
+        state.contactsList = state.contactsList.filter(
+          (contact) => contact.email !== action.payload.email
         );
       })
-      .addCase(removeConnection.rejected, (state, action) => {
-        state.loading.removeConnection = false;
-        state.error.removeConnection = action.payload;
+      .addCase(removeContact.rejected, (state, action) => {
+        state.loading.removeContact = false;
+        state.error.removeContact = action.payload;
       });
 
     // Async Thunk: getMailsList
@@ -587,9 +607,9 @@ export const {
   addLabelSuccess,
   updateLabelItemSuccess,
   deleteLabelItemSuccess,
-  getConnectionsListSuccess,
-  addConnectionSuccess,
-  removeConnectionSuccess,
+  getContactsListSuccess,
+  addContactSuccess,
+  removeContactSuccess,
   getMailsListSuccess,
   updateMailFolderSuccess,
   updateMailLabelSuccess,

@@ -22,7 +22,6 @@ const Banner = () => {
   const theme = useTheme();
 
   const heroData = {
-    heading: "Unlock the World of Algorithms",
     paragraphs: [
       "Discover a new algorithm every day with our intuitive learning platform.",
       " Get comprehensive explanations and real-world code examples for each algorithm.",
@@ -97,6 +96,7 @@ const Banner = () => {
         color: theme.palette.text.primary,
         backgroundColor: theme.palette.background.paper,
         padding: theme.spacing(10),
+        paddingTop: theme.spacing(50),
       }}
     >
       <Container>
@@ -121,7 +121,7 @@ const Banner = () => {
                   margin: theme.spacing(10, 0),
                 }}
               >
-                {heroData.heading}
+                Unlock the World of Algorithms
               </Typography>
               <Typography variant="p">{heroData.paragraphs}</Typography>
             </Box>

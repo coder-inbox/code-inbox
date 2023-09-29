@@ -15,7 +15,7 @@ const CallToAction = () => {
     <Box
       sx={{
         background: "#0D1549",
-        padding: theme.spacing(6, 0), // Adjusted top and bottom padding
+        padding: theme.spacing(6, 0),
       }}
     >
       <Container>
@@ -36,11 +36,11 @@ const CallToAction = () => {
           </Grid>
           <Grid item md={3} xs={12} sx={{ textAlign: "center" }}>
             <Button
-              href="#"
+              href="/login"
               sx={{
-                margin: "0 auto", // Center the button horizontally
-                width: "40%", // Make the button width 100% of its container
-                padding: theme.spacing(2), // Adjusted padding for the button
+                margin: "0 auto",
+                width: "40%",
+                padding: theme.spacing(2),
                 borderRadius: "50px",
                 fontSize: "16px",
                 textTransform: "capitalize",

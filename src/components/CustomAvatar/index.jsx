@@ -2,9 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Avatar } from "@mui/material";
 import { componentColors } from "../Helper";
-import { Server } from "../../utils";
 
 const colorOptions = [...componentColors, "random"];
+const baseURL = process.env.VITE_SERVER_URL || "http://localhost:8000/api/v1";
 
 const getRandomColor = () => {
   return colorOptions[Math.floor(Math.random() * 11)];
@@ -83,7 +83,7 @@ const CustomAvatar = React.forwardRef(
         ? alt.substr(0, phCharLength).toUpperCase()
         : null;
 
-    src = `${Server.endpoint}/profile/${src}`;
+    src = `${baseURL}/${src}`;
 
     return (
       <Avatar

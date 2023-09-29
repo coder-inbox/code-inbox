@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 import PropTypes from "prop-types";
 import SenderInfo from "../MailsList/SenderInfo";
 
-const ConnectionCell = ({ item, onClickSendMail }) => {
+const ContactCell = ({ item, onClickSendMail }) => {
   const theme = useTheme();
   const [showSenderInfo, setShowSenderInfo] = useState(null);
   const isOnline = item.status === 1;
@@ -109,8 +109,8 @@ const ConnectionCell = ({ item, onClickSendMail }) => {
   );
 };
 
-export default ConnectionCell;
+export default ContactCell;
 
-ConnectionCell.propTypes = {
+ContactCell.propTypes = {
   openDialog: PropTypes.object.isRequired,
 };

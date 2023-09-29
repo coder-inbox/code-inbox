@@ -3,35 +3,7 @@ import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import PropTypes from "prop-types";
 import ReplyIcon from "@mui/icons-material/Reply";
-
-const linkify = (inputText) => {
-  let replacedText, replacePattern1, replacePattern2, replacePattern3;
-
-  //URLs starting with http://, https://, or ftp://
-  replacePattern1 =
-    /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\\/%?=~_|!:,.;]*[-A-Z0-9+&@#\\/%=~_|])/gim;
-  replacedText = inputText.replace(
-    replacePattern1,
-    '<a href="$1" target="_blank">$1</a>'
-  );
-
-  //URLs starting with "www." (without // before it, or it'd re-link the ones done above).
-  replacePattern2 = /(^|[^\\/])(www\.[\S]+(\b|$))/gim;
-  replacedText = replacedText.replace(
-    replacePattern2,
-    '$1<a href="http://$2" target="_blank">$2</a>'
-  );
-
-  //Change email addresses to mailto:: links.
-  replacePattern3 =
-    /(([a-zA-Z0-9\-_.])+@[a-zA-Z0-9\\-]+?(\.[a-zA-Z]{2,6})+)/gim;
-  replacedText = replacedText.replace(
-    replacePattern3,
-    '<a href="mailto:$1">$1</a>'
-  );
-
-  return replacedText;
-};
+import cleanEmailBody from "@app/components/MailDetail";
 
 const MailReply = ({
   reply,
@@ -104,9 +76,7 @@ const MailReply = ({
             }}
             component="p"
             dangerouslySetInnerHTML={{
-              __html: linkify(
-                reply.message.replace(/(?:\r\n|\r|\n)/g, "<br />")
-              ),
+              __html: cleanEmailBody(reply.message),
             }}
           />
         )}
@@ -119,7 +89,6 @@ const MailReply = ({
 export default MailReply;
 
 MailReply.propTypes = {
-  classes: PropTypes.object.isRequired,
   reply: PropTypes.object.isRequired,
   getMailDate: PropTypes.func.isRequired,
   onShowAttachments: PropTypes.func.isRequired,

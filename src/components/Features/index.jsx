@@ -216,7 +216,11 @@ const Features = () => {
               }}
             >
               <Box>
-                <img src="https://brave-chat.net/logo.png" alt="" />
+                <img
+                  src="/features.png"
+                  alt="Code Inbox Features"
+                  height="800px"
+                />
               </Box>
             </Grid>
             <Grid item xs={12} md={6} lg={4}>
