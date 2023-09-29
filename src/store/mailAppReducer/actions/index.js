@@ -98,7 +98,15 @@ export const getContactsList = createAsyncThunk(
   "mailbox/getContactsList",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${baseURL}/contacts`);
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: JSON.parse(localStorage.getItem("token")),
+          email: JSON.parse(localStorage.getItem("user")).email,
+        },
+      };
+      const response = await axios.get(`${baseURL}/nylas/contacts`, config);
+
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || "Something went wrong");
@@ -234,6 +242,7 @@ export const composeMail = createAsyncThunk(
           email: JSON.parse(localStorage.getItem("user")).email,
         },
       };
+      console.log(mail)
       const response = await axios.post(
         `${baseURL}/nylas/send-email`,
         mail,
@@ -283,9 +292,21 @@ export const updateSelectedMail = createAsyncThunk(
 
 export const replyToMail = createAsyncThunk(
   "mailbox/replyToMail",
-  async ({ id, mail }, { rejectWithValue }) => {
+  async (mail, { rejectWithValue }) => {
     try {
-      const response = await axios.put(`${baseURL}/mail/reply`, { id, mail });
+      console.log(1111111, mail)
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: JSON.parse(localStorage.getItem("token")),
+          email: JSON.parse(localStorage.getItem("user")).email,
+        },
+      };
+      const response = await axios.post(
+        `${baseURL}/nylas/reply-email`,
+        mail,
+        config
+      );
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || "Something went wrong");

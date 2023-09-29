@@ -168,6 +168,8 @@ const ProgrammingLanguages = () => {
           justifyContent: "center",
           minHeight: "100vh",
         }}
+        component="form"
+        onSubmit={handleSubscribe}
       >
         <Typography variant="h1" sx={{ marginBottom: 20 }} gutterBottom>
           Subscribe for Daily Algorithms
@@ -181,6 +183,7 @@ const ProgrammingLanguages = () => {
             label="Choose a programming language"
             value={selectedLanguage}
             onChange={handleChange}
+            require
           >
             {programmingLanguages.map((language) => (
               <MenuItem key={language} value={language}>
@@ -192,7 +195,7 @@ const ProgrammingLanguages = () => {
         <Button
           variant="contained"
           color="primary"
-          onClick={handleSubscribe}
+          type="submit"
           sx={{ marginTop: 15 }}
         >
           Subscribe

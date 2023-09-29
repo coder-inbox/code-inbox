@@ -31,7 +31,7 @@ const MailDetail = ({ width, onClickForwardMail }) => {
   const dispatch = useDispatch();
   const { selectedMail, labelsList } = useSelector(({ mailApp }) => mailApp);
   const theme = useTheme();
-
+  console.log(selectedMail)
   const getSenderInfo = () => (
     <Box component="span" display="flex" alignItems="center">
       <Box component="span" fontSize={16}>
@@ -47,7 +47,7 @@ const MailDetail = ({ width, onClickForwardMail }) => {
   );
 
   const onClickReplyMail = (mail) => {
-    dispatch(replyToMail(selectedMail.id, mail));
+    dispatch(replyToMail(mail));
   };
 
   const getMailDate = (date) => {
@@ -123,7 +123,7 @@ const MailDetail = ({ width, onClickForwardMail }) => {
                 />
               }
               title={getSenderInfo()}
-              subTitle={`to ${to[0].name}`}
+              subTitle={`to <${to[0].email}>`}
               showItemBadge={false}
               anchorOrigin={{
                 vertical: "top",
@@ -196,7 +196,7 @@ const MailDetail = ({ width, onClickForwardMail }) => {
             ))}
           </Box>
 
-          <ReplyMailForm onClickReplyMail={onClickReplyMail} />
+          <ReplyMailForm threadId={selectedMail.thread_id} onClickReplyMail={onClickReplyMail} />
         </Box>
       </PerfectScrollbar>
     </>

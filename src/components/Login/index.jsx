@@ -142,9 +142,9 @@ const Login = () => {
           >
             POWERED BY{" "}
             <img
-              src="/nylas-logo.png"
+              src="/nylas-logo.svg"
               alt="Nylas Logo"
-              style={{ marginLeft: theme.spacing(12), width: "50px" }}
+              style={{ marginLeft: theme.spacing(1), width: "150px" }}
             />
           </Box>
         </Paper>

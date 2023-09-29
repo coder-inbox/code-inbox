@@ -9,7 +9,7 @@ import SendIcon from "@mui/icons-material/Send";
 import AppTextInput from "@app/components/AppTextInput";
 import { useTheme } from "@mui/material/styles";
 
-const ReplyMailForm = ({ onClickReplyMail }) => {
+const ReplyMailForm = ({ threadId, onClickReplyMail }) => {
   const [message, setMessage] = useState("");
   const [attachments, setAttachments] = useState([]);
   const theme = useTheme();
@@ -42,9 +42,10 @@ const ReplyMailForm = ({ onClickReplyMail }) => {
   const onClickSend = () => {
     if (message || attachments.length > 0) {
       const mail = {
-        attachments,
-        message,
+        "thread_id": threadId,
+        "body": message,
       };
+      console.log(mail)
       onClickReplyMail(mail);
       setAttachments([]);
       setMessage("");
@@ -155,4 +156,5 @@ export default ReplyMailForm;
 
 ReplyMailForm.propTypes = {
   onClickReplyMail: PropTypes.func,
+  threadId: PropTypes.string.isRequired,
 };
