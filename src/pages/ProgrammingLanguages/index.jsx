@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { updateLanguage } from "@app/store/authReducer/actions";
+import { useDispatch } from "react-redux";
 import {
   Container,
   Box,
@@ -148,13 +150,16 @@ export const programmingLanguages = [
 const ProgrammingLanguages = () => {
   const [selectedLanguage, setSelectedLanguage] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleChange = (event) => {
     setSelectedLanguage(event.target.value);
   };
 
   const handleSubscribe = () => {
+    event.preventDefault();
     localStorage.setItem("language", selectedLanguage);
+    dispatch(updateLanguage(selectedLanguage));
     navigate("/mail");
   };
 

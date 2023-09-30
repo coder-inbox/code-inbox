@@ -1,5 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { userLogin, userGetToken, uploadPicture, userLogout } from "./actions";
+import {
+  userLogin,
+  userGetToken,
+  uploadPicture,
+  userLogout,
+  updateLanguage,
+} from "./actions";
 
 import storage from "redux-persist/lib/storage";
 // initialize token from local storage
@@ -104,6 +110,22 @@ const authReducer = createSlice({
       }, 500);
     });
     builder.addCase(userLogout.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+      state.message = "An error has occurred!";
+    });
+
+    builder.addCase(updateLanguage.pending, (state, _action) => {
+      state.loading = true;
+      state.error = null;
+      state.message = "";
+    });
+    builder.addCase(updateLanguage.fulfilled, (state, action) => {
+      state.loading = false;
+      state.success = true;
+      state.message = "";
+    });
+    builder.addCase(updateLanguage.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload;
       state.message = "An error has occurred!";

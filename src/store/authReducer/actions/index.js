@@ -129,3 +129,26 @@ export const SetPersonalInfo = createAsyncThunk(
     }
   }
 );
+
+export const updateLanguage = createAsyncThunk(
+  "user/language",
+  async (language, { getState, rejectWithValue }) => {
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: JSON.parse(localStorage.getItem("token")),
+          email: JSON.parse(localStorage.getItem("user")).email,
+        },
+      };
+      const response = await axios.put(
+        `${baseURL}/user/language`,
+        { language: language },
+        config
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "Something went wrong");
+    }
+  }
+);

@@ -1,6 +1,6 @@
 #root {
   position: absolute;
-  overflow-x: hidden;
+  overflow-x: clip;
   top: 0px;
   left: 0px;
   width: 100%;

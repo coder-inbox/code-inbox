@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
 import SearchIcon from "@mui/icons-material/Search";
+import RefreshIcon from "@mui/icons-material/Refresh";
 import {
   setFilterType,
   toggleSidebarCollapsed,
@@ -43,7 +44,7 @@ import Fab from "@mui/material/Fab";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import MenuIcon from "@mui/icons-material/Menu";
-
+import { getMailsList } from "@app/store/mailAppReducer/actions";
 const sections = ["Banner", "Features", "Services", "Team", "Faq"];
 const settings = ["View Profile", "Edit Profile", "Log out"];
 
@@ -62,12 +63,19 @@ const AppHeader = ({ viewMode, handleViewModeChange }) => {
   const [showViewModes, setShowViewModes] = useState(null);
   const [searchTextState, setSearchTextState] = useState(searchText);
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const theme = useTheme();
+
   const onShowViewModes = (event) => {
     setShowViewModes(event.currentTarget);
   };
 
   const onHideViewModes = () => {
     setShowViewModes(null);
+  };
+  const handleRefreshClick = () => {
+    dispatch(getMailsList());
   };
 
   const handleSearchText = (e) => {
@@ -92,10 +100,6 @@ const AppHeader = ({ viewMode, handleViewModeChange }) => {
     setDarkTheme(newTheme === "dark");
     localStorage.setItem("theme", newTheme);
   };
-
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const theme = useTheme();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -246,6 +250,9 @@ const AppHeader = ({ viewMode, handleViewModeChange }) => {
           aria-label="Toggle theme"
         >
           {darkTheme ? <Brightness4Icon /> : <Brightness7Icon />}
+        </IconButton>
+        <IconButton color="primary" onClick={handleRefreshClick}>
+          <RefreshIcon />
         </IconButton>
         <Box sx={{ flexGrow: 0 }}>
           <Tooltip title="Open settings">
