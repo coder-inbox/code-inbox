@@ -68,7 +68,7 @@ const EditInfo = ({ open, onCloseDialog }) => {
       dispatch(
         SetPersonalInfo({ firstName, lastName, bio, programmingLanguage })
       );
-      onCloseDialog();
+      dispatch(onCloseDialog());
     }
   };
 
