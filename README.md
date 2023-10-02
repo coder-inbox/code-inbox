@@ -40,7 +40,7 @@ Code Inbox is committed to providing developers with a developer-friendly code b
 
 ### Getting Started Locally with PNPM
 
-> **Please Note:**<br>
+> **Note**<br>
 Ensure that you have [`pnpm`](https://pnpm.io/installation) installed on your local machine before proceeding.
 
 1. **Fork/Clone the Repository:**
@@ -78,6 +78,10 @@ To deploy the client, you will need to set the following environment variable th
 ```sh
 * VITE_SERVER_URL - Your deployed server APIs url.
 ```
+
+### Deploy locally with Compose v2
+
+Navigate to [the server repository](https://github.com/coder-inbox/code-inbox-server) and follow the instructions listed in [the readme file](https://github.com/coder-inbox/code-inbox-server#installation-with-make) to run both the client and the server in docker containers.
 
 ### **Deploy to a Static Hosting Provider**
 
