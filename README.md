@@ -1,7 +1,7 @@
 # Code Inbox
 
 [![Demo on Cloudflare](https://badgen.net/badge/icon/cloudflare/green?icon=telegram&label=code-inbox)](https://code-inbox.com/)
-[![Tag](https://badgen.net/github/tag/wiseaidev/code-inbox)](https://github.com/wiseaidev/code-inbox/releases/tag/v0.1.0)
+[![Tag](https://badgen.net/github/tag/coder-inbox/code-inbox)](https://github.com/wiseaidev/code-inbox/releases/tag/v0.1.0)
 
 ![Code Inbox](https://github.com/coder-inbox/.github/blob/main/profile/static/banner.png "Code Inbox")
 
