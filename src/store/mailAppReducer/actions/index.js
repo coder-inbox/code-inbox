@@ -336,6 +336,29 @@ export const replyToMail = createAsyncThunk(
   }
 );
 
+export const executeCode = createAsyncThunk(
+  "mailbox/executeCode",
+  async ({ code, language_id }, { rejectWithValue }) => {
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: JSON.parse(localStorage.getItem("token")),
+          email: JSON.parse(localStorage.getItem("user")).email,
+        },
+      };
+      const response = await axios.post(
+        `${baseURL}/nylas/execute-code`,
+        { code, language_id },
+        config
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "Something went wrong");
+    }
+  }
+);
+
 export const nullifySelectedMail = createAsyncThunk(
   "mailbox/nullifySelectedMail",
   async () => {
