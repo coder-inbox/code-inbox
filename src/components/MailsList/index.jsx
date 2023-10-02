@@ -44,6 +44,7 @@ const MailsList = ({
         flexDirection: "column",
         width: "100%",
         overflowY: "auto",
+        backgroundColor: theme.palette.background.paper,
       }}
     >
       {totalMails > 0 && (

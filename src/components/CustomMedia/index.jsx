@@ -35,7 +35,7 @@ const CustomMedia = ({
       };
 
       return (
-        <div sx={avatarClasses}>
+        <Box sx={avatarClasses}>
           <Box mr={3} clone>
             {isValidElement(avatar) ? (
               avatar
@@ -47,7 +47,7 @@ const CustomMedia = ({
               />
             )}
           </Box>
-        </div>
+        </Box>
       );
     }
     return null;
@@ -73,29 +73,29 @@ const CustomMedia = ({
   return (
     <Box sx={mediaObjectClasses} {...rest}>
       {getAvatarComponent()}
-      <div sx={mediaImageClasses} onClick={onBodyClick}>
-        <div sx={mediaHeaderClasses}>
-          <div sx={{ className: "custom-media-header-content" }}>
+      <Box sx={mediaImageClasses} onClick={onBodyClick}>
+        <Box sx={mediaHeaderClasses}>
+          <Box sx={{ className: "custom-media-header-content" }}>
             {title && <CustomTitle content={title} {...titleProps} />}
             {subTitle && (
               <CustomSubTitle content={subTitle} {...subTitleProps} />
             )}
-          </div>
+          </Box>
           {actionsComponent && (
-            <div className="custom-media-actions ml-3">{actionsComponent}</div>
+            <Box className="custom-media-actions ml-3">{actionsComponent}</Box>
           )}
-        </div>
+        </Box>
         {content && (
-          <div className="mb-3">
+          <Box className="mb-3">
             {typeof content === "string" ? (
               <Typography {...contentProps}>{content}</Typography>
             ) : (
               content
             )}
-          </div>
+          </Box>
         )}
         {children}
-      </div>
+      </Box>
       {footerComponent && (
         <Box
           ml={3}

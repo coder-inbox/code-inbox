@@ -2,7 +2,7 @@ import React, { isValidElement } from "react";
 import PropTypes from "prop-types";
 import CustomTitle from "@app/components/CustomTitle";
 import CustomSubTitle from "@app/components/CustomSubTitle";
-import { useTheme } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 
 function CustomContentHead({
   icon,
@@ -33,19 +33,19 @@ function CustomContentHead({
   };
 
   return (
-    <div sx={headRootStyle} className="custom-content-head" {...restProps}>
+    <Box sx={headRootStyle} className="custom-content-head" {...restProps}>
       {avatar && isValidElement(avatar) ? (
-        <div sx={avatarStyle} className="custom-avatar">
+        <Box sx={avatarStyle} className="custom-avatar">
           {avatar}
-        </div>
+        </Box>
       ) : (
         icon && (
-          <div sx={avatarStyle} className="custom-avatar">
+          <Box sx={avatarStyle} className="custom-avatar">
             {icon}
-          </div>
+          </Box>
         )
       )}
-      <div sx={headerContentStyle} className="custom-header-content">
+      <Box sx={headerContentStyle} className="custom-header-content">
         {title && (
           <CustomTitle
             sx={titleStyle}
@@ -62,8 +62,8 @@ function CustomContentHead({
             {...subTitleProps}
           />
         )}
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 }
 

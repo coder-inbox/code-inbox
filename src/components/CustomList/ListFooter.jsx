@@ -1,12 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { CircularProgress, useTheme } from "@mui/material";
+import { Box, CircularProgress, useTheme } from "@mui/material";
 
 const ListFooter = ({ loading, footerText }) => {
   const theme = useTheme();
 
   return (
-    <div
+    <Box
       sx={{
         padding: "10px",
         color: theme.palette.text.secondary,
@@ -15,7 +15,7 @@ const ListFooter = ({ loading, footerText }) => {
       }}
     >
       {loading ? (
-        <div
+        <Box
           sx={{
             display: "flex",
             padding: "8px",
@@ -26,11 +26,11 @@ const ListFooter = ({ loading, footerText }) => {
         >
           <CircularProgress size={16} />
           <span sx={{ marginLeft: "8px" }}>Loading...</span>
-        </div>
+        </Box>
       ) : (
         <p>{footerText}</p>
       )}
-    </div>
+    </Box>
   );
 };
 

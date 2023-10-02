@@ -27,7 +27,7 @@ const CustomSummary = ({
 
   if (typeof badge !== "string") {
     const node = (
-      <div
+      <Box
         style={{
           backgroundColor: "white",
           boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.15)",
@@ -39,7 +39,7 @@ const CustomSummary = ({
         className="custom-badge"
       >
         {badge}
-      </div>
+      </Box>
     );
     badgeContent.badgeContent = node;
   }
@@ -65,7 +65,7 @@ const CustomSummary = ({
 
   const componentContent = () => {
     return (
-      <div
+      <Box
         style={{
           display: "flex",
           alignItems: "center",
@@ -75,7 +75,7 @@ const CustomSummary = ({
         className={align}
       >
         {getAvatarComponent()}
-        <div
+        <Box
           className="custom-user-info"
           style={{
             marginLeft: align === "horizontal" ? "15px" : "0",
@@ -104,8 +104,8 @@ const CustomSummary = ({
           >
             {subTitle}
           </Box>
-        </div>
-      </div>
+        </Box>
+      </Box>
     );
   };
 

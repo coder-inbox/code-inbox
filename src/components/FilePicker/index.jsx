@@ -1,10 +1,11 @@
 import React from "react";
 import { useDropzone } from "react-dropzone";
-import { IconButton, Box, Tooltip } from "@mui/material";
+import { IconButton, Box, Tooltip, useTheme } from "@mui/material";
 import PropTypes from "prop-types";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 
 const FilePicker = ({ onAddAttachments }) => {
+  const theme = useTheme();
   const { getRootProps, getInputProps } = useDropzone({
     accept: "image/*, .pdf, .zip",
     multiple: true,
@@ -24,7 +25,12 @@ const FilePicker = ({ onAddAttachments }) => {
       <input {...getInputProps()} />
       <Tooltip title="Attachments">
         <IconButton>
-          <AttachFileIcon />
+          <AttachFileIcon
+            sx={{
+              color: theme.palette.text.primary,
+              backgroundColor: theme.palette.background.paper,
+            }}
+          />
         </IconButton>
       </Tooltip>
     </Box>

@@ -84,7 +84,13 @@ const EditInfo = ({ open, onCloseDialog }) => {
       >
         Edit Personal Information.
       </DialogTitle>
-      <DialogContent dividers>
+      <DialogContent
+        dividers
+        sx={{
+          color: theme.palette.text.primary,
+          backgroundColor: theme.palette.background.paper,
+        }}
+      >
         <Box component="form" onSubmit={onSubmit}>
           <Box
             display="flex"

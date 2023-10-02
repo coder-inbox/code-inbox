@@ -65,6 +65,8 @@ const DetailHeader = ({ selectedMail, labelsList }) => {
       sx={{
         borderBottom: `1px solid ${theme.palette.borderColor.main}`,
         display: "flex",
+        backgroundColor: theme.palette.background.paper,
+        color: theme.palette.text.primary,
         alignItems: "center",
         padding: "11px 16px 10px 16px",
         [theme.breakpoints.down("xs")]: {
@@ -75,7 +77,7 @@ const DetailHeader = ({ selectedMail, labelsList }) => {
     >
       <Tooltip title="Back">
         <IconButton onClick={onGoBack}>
-          <ArrowBackIcon />
+          <ArrowBackIcon sx={{ color: theme.palette.text.primary }} />
         </IconButton>
       </Tooltip>
       <Box
@@ -101,7 +103,7 @@ const DetailHeader = ({ selectedMail, labelsList }) => {
       <Box ml="auto" sx={{ ml: 1 }}>
         <Tooltip title="More Options">
           <IconButton onClick={onShowMoreOptions}>
-            <MoreHorizIcon />
+            <MoreHorizIcon sx={{ color: theme.palette.text.primary }} />
           </IconButton>
         </Tooltip>
       </Box>
@@ -109,11 +111,26 @@ const DetailHeader = ({ selectedMail, labelsList }) => {
         anchorEl={showMoreOptions}
         open={Boolean(showMoreOptions)}
         onClose={onHideMoreOptions}
+        sx={{
+          color: theme.palette.text.primary,
+        }}
       >
-        <MenuItem onClick={onUpdateFvrtStatus}>
+        <MenuItem
+          onClick={onUpdateFvrtStatus}
+          sx={{
+            backgroundColor: theme.palette.background.paper,
+            color: theme.palette.text.primary,
+          }}
+        >
           {selectedMail.favorite ? "Remove from Favorite" : "Mark as Favorite"}
         </MenuItem>
-        <MenuItem onClick={onUpdateImprtntStatus}>
+        <MenuItem
+          onClick={onUpdateImprtntStatus}
+          sx={{
+            backgroundColor: theme.palette.background.paper,
+            color: theme.palette.text.primary,
+          }}
+        >
           {selectedMail.important
             ? "Remove from Important"
             : "Mark as Important"}

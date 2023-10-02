@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
-import { Menu, MenuItem } from "@mui/material";
+import { Box, Menu, MenuItem } from "@mui/material";
 
 const DropdownMenu = ({ TriggerComponent, items, onItemClick }) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -29,10 +29,10 @@ const DropdownMenu = ({ TriggerComponent, items, onItemClick }) => {
   };
   return (
     <>
-      <div className="pointer">
+      <Box className="pointer">
         {/* eslint-disable-next-line*/}
         <TriggerComponent.type {...TriggerComponent.props} onClick={openMenu} />
-      </div>
+      </Box>
       <Menu
         anchorEl={anchorEl}
         keepMounted
@@ -51,7 +51,7 @@ const DropdownMenu = ({ TriggerComponent, items, onItemClick }) => {
               }
             >
               {item.icon}
-              <div className="ml-2">{item.label}</div>
+              <Box className="ml-2">{item.label}</Box>
             </MenuItem>
           );
         })}

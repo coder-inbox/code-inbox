@@ -19,6 +19,7 @@ import {
 import { uploadPicture, userLogout } from "@app/store/authReducer/actions";
 import { useTheme } from "@mui/material/styles";
 
+import { toggleTheme } from "@app/store/authReducer";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import CustomElevator from "@app/components/Header/CustomElevator";
@@ -98,7 +99,7 @@ const AppHeader = ({ viewMode, handleViewModeChange }) => {
   const toggleDarkTheme = () => {
     const newTheme = darkTheme ? "light" : "dark";
     setDarkTheme(newTheme === "dark");
-    localStorage.setItem("theme", newTheme);
+    dispatch(toggleTheme(newTheme));
   };
 
   const handleOpenNavMenu = (event) => {
@@ -152,10 +153,11 @@ const AppHeader = ({ viewMode, handleViewModeChange }) => {
   return (
     <Box
       sx={{
-        borderBottom: `1px solid ${theme.palette.divider}`,
+        borderBottom: `1px solid ${theme.palette.text.primary}`,
         display: "flex",
         alignItems: "center",
         padding: "10px 16px",
+        backgroundColor: theme.palette.background.default,
       }}
     >
       <Box
@@ -168,7 +170,7 @@ const AppHeader = ({ viewMode, handleViewModeChange }) => {
         }}
       >
         <IconButton onClick={(e) => handleViewModeChange(e.target.value)}>
-          <MenuIcon />
+          <MenuIcon sx={{ color: theme.palette.text.primary }} />
         </IconButton>
         <Box
           component="img"
@@ -205,7 +207,7 @@ const AppHeader = ({ viewMode, handleViewModeChange }) => {
           sx={{
             position: "relative",
             width: "100%",
-            backgroundColor: theme.palette.background.default,
+            color: theme.palette.text.primary,
           }}
         >
           <InputBase
@@ -218,10 +220,8 @@ const AppHeader = ({ viewMode, handleViewModeChange }) => {
               padding: "5px 15px 5px 35px",
               height: "36px",
               borderRadius: "4px",
-              border: `1px solid ${theme.palette.divider}`,
-              color: theme.palette.text.primary,
+              border: `1px solid ${theme.palette.text.primary}`,
               fontSize: "12px",
-              backgroundColor: theme.palette.background.paper,
               transition: "all 0.3s ease",
               "&:focus": {
                 borderColor: theme.palette.text.primary,
@@ -249,7 +249,11 @@ const AppHeader = ({ viewMode, handleViewModeChange }) => {
           }}
           aria-label="Toggle theme"
         >
-          {darkTheme ? <Brightness4Icon /> : <Brightness7Icon />}
+          {darkTheme ? (
+            <Brightness4Icon sx={{ color: theme.palette.text.primary }} />
+          ) : (
+            <Brightness7Icon sx={{ color: theme.palette.text.primary }} />
+          )}
         </IconButton>
         <IconButton color="primary" onClick={handleRefreshClick}>
           <RefreshIcon />
@@ -322,7 +326,14 @@ const AppHeader = ({ viewMode, handleViewModeChange }) => {
               horizontal: "right",
             }}
           >
-            <Box p={{ xs: 2, md: 3 }}>
+            <Box
+              p={{
+                xs: 2,
+                md: 3,
+                color: theme.palette.text.primary,
+                backgroundColor: theme.palette.background.paper,
+              }}
+            >
               <Box className="user-root">
                 <input {...getInputProps()} />
                 <IconButton className="icon-btn-root" {...getRootProps()}>
@@ -339,13 +350,23 @@ const AppHeader = ({ viewMode, handleViewModeChange }) => {
                     className="user-title"
                     component="h3"
                     variant="h6"
-                    sx={{ color: "#fff" }}
+                    sx={{
+                      color: theme.palette.text.primary,
+                      backgroundColor: theme.palette.background.paper,
+                    }}
                   >
-                    {currentAuthUser?.first_name
-                      ? currentAuthUser?.first_name
+                    {currentAuthUser?.full_name
+                      ? currentAuthUser?.full_name
                       : ""}
                   </Typography>
-                  <Typography className="user-sub-title" component="span">
+                  <Typography
+                    className="user-sub-title"
+                    component="span"
+                    sx={{
+                      color: theme.palette.text.primary,
+                      backgroundColor: theme.palette.background.paper,
+                    }}
+                  >
                     {currentAuthUser?.bio
                       ? currentAuthUser?.bio.substring(0, 30) + "..."
                       : ""}

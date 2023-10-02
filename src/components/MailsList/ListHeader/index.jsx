@@ -131,7 +131,14 @@ const ListHeader = ({ checkedMails, setCheckedMails }) => {
           "& .MuiSelect-select:focus": { backgroundColor: "transparent" },
         }}
         renderRow={(item, index) => (
-          <MenuItem key={index} value={item.slug}>
+          <MenuItem
+            key={index}
+            value={item.slug}
+            sx={{
+              color: theme.palette.text.primary,
+              backgroundColor: theme.palette.background.paper,
+            }}
+          >
             {item.label}
           </MenuItem>
         )}
