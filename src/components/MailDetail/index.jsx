@@ -10,6 +10,7 @@ import Typography from "@mui/material/Typography";
 import ReplyMailForm from "./ReplyMailForm";
 import DetailHeader from "./DetailHeader";
 import MailReply from "./MailReply";
+import MailCodeExecute from "./MailCodeExecute";
 import IconButton from "@mui/material/IconButton";
 import PropTypes from "prop-types";
 import PerfectScrollbar from "react-perfect-scrollbar";
@@ -76,7 +77,11 @@ const MailDetail = ({ width, onClickForwardMail }) => {
     selectedMail;
 
   return (
-    <>
+    <Box
+      sx={{
+        width: "100%",
+      }}
+    >
       <PerfectScrollbar
         style={{
           flex: 1,
@@ -206,9 +211,10 @@ const MailDetail = ({ width, onClickForwardMail }) => {
             threadId={selectedMail.thread_id}
             onClickReplyMail={onClickReplyMail}
           />
+          <MailCodeExecute />
         </Box>
       </PerfectScrollbar>
-    </>
+    </Box>
   );
 };
 

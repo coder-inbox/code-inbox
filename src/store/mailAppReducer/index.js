@@ -19,6 +19,7 @@ import {
   getSelectedMail,
   updateSelectedMail,
   replyToMail,
+  executeCode,
   searchEmails,
   nullifySelectedMail as nullifySelectedMailThunk,
 } from "./actions";
@@ -29,6 +30,7 @@ const initialState = {
   contactsList: [],
   allMailList: [],
   mailsList: [],
+  codeResult: null,
   filterType: {
     selectedFolder: "inbox",
     selectedFilter: "",
@@ -40,6 +42,7 @@ const initialState = {
   totalMailCount: null,
   loading: {
     searchEmails: false,
+    codeResult: false,
     isSideBarCollapsed: false,
     setFilterType: false,
     getLabelsList: false,
@@ -63,6 +66,7 @@ const initialState = {
   },
   error: {
     isSideBarCollapsed: null,
+    codeResult: null,
     searchEmails: null,
     setFilterType: null,
     getLabelsList: null,
@@ -601,7 +605,7 @@ const mailAppReducer = createSlice({
         state.error.replyToMail = action.payload;
       });
 
-    // Async Thunk: replyToMail
+    // Async Thunk: searchEmails
     builder
       .addCase(searchEmails.pending, (state) => {
         state.loading.searchEmails = true;
@@ -616,6 +620,23 @@ const mailAppReducer = createSlice({
       .addCase(searchEmails.rejected, (state, action) => {
         state.loading.searchEmails = false;
         state.error.searchEmails = "Something went wrong!";
+      });
+
+    // Async Thunk: executeCode
+    builder
+      .addCase(executeCode.pending, (state) => {
+        state.loading.codeResult = true;
+        state.error.codeResult = null;
+      })
+      .addCase(executeCode.fulfilled, (state, action) => {
+        state.loading.codeResult = false;
+        if (action.payload) {
+          state.codeResult = action.payload.stdout;
+        }
+      })
+      .addCase(executeCode.rejected, (state, action) => {
+        state.loading.codeResult = false;
+        state.error.codeResult = "Something went wrong!";
       });
   },
 });
