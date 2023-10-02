@@ -17,6 +17,31 @@ export const setFilterType = createAsyncThunk(
   }
 );
 
+export const searchEmails = createAsyncThunk(
+  "mailbox/searchEmails",
+  async (filterType, { rejectWithValue }) => {
+    try {
+      if (filterType.searchText.length > 0) {
+        const config = {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: JSON.parse(localStorage.getItem("token")),
+            email: JSON.parse(localStorage.getItem("user")).email,
+          },
+          params: { search: filterType.searchText },
+        };
+        const response = await axios.get(
+          `${baseURL}/nylas/search-emails`,
+          config
+        );
+        return response.data;
+      }
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "Something went wrong");
+    }
+  }
+);
+
 export const getLabelsList = createAsyncThunk(
   "mailbox/getLabelsList",
   async (_, { rejectWithValue }) => {

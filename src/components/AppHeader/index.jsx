@@ -13,7 +13,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import SearchIcon from "@mui/icons-material/Search";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import {
-  setFilterType,
+  searchEmails,
   toggleSidebarCollapsed,
 } from "@app/store/mailAppReducer/actions";
 import { uploadPicture, userLogout } from "@app/store/authReducer/actions";
@@ -82,7 +82,7 @@ const AppHeader = ({ viewMode, handleViewModeChange }) => {
   const handleSearchText = (e) => {
     setSearchTextState(e.target.value);
     dispatch(
-      setFilterType({
+      searchEmails({
         selectedFolder: !searchTextState && "inbox",
         selectedFilter: "",
         selectedLabel: "",

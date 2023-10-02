@@ -19,6 +19,7 @@ import {
   getSelectedMail,
   updateSelectedMail,
   replyToMail,
+  searchEmails,
   nullifySelectedMail as nullifySelectedMailThunk,
 } from "./actions";
 
@@ -38,6 +39,7 @@ const initialState = {
   selectedMail: null,
   totalMailCount: null,
   loading: {
+    searchEmails: false,
     isSideBarCollapsed: false,
     setFilterType: false,
     getLabelsList: false,
@@ -61,6 +63,7 @@ const initialState = {
   },
   error: {
     isSideBarCollapsed: null,
+    searchEmails: null,
     setFilterType: null,
     getLabelsList: null,
     addNewLabel: null,
@@ -596,6 +599,23 @@ const mailAppReducer = createSlice({
       .addCase(replyToMail.rejected, (state, action) => {
         state.loading.replyToMail = false;
         state.error.replyToMail = action.payload;
+      });
+
+    // Async Thunk: replyToMail
+    builder
+      .addCase(searchEmails.pending, (state) => {
+        state.loading.searchEmails = true;
+        state.error.searchEmails = null;
+      })
+      .addCase(searchEmails.fulfilled, (state, action) => {
+        state.loading.searchEmails = false;
+        if (action.payload?.length > 0) {
+          state.mailsList = action.payload;
+        }
+      })
+      .addCase(searchEmails.rejected, (state, action) => {
+        state.loading.searchEmails = false;
+        state.error.searchEmails = "Something went wrong!";
       });
   },
 });
