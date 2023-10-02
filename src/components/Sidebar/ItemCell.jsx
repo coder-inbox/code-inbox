@@ -20,8 +20,8 @@ const ItemCell = ({ item, selectedItem, onChange, counter }) => {
           },
         },
         "&.active": {
-          color: theme.palette.primary.main,
-          backgroundColor: theme.palette.action.selected,
+          color: theme.palette.text.primary,
+          backgroundColor: theme.palette.text.disabled,
           ".custom-icon-root": {
             color: theme.palette.primary.main,
           },
@@ -37,7 +37,11 @@ const ItemCell = ({ item, selectedItem, onChange, counter }) => {
       onClick={() => onChange(item.slug)}
     >
       <ListItemIcon className="custom-icon-root">
-        {item.icon ? item.icon : <LabelIcon sx={{ color: item.color }} />}
+        {item.icon ? (
+          item.icon
+        ) : (
+          <LabelIcon sx={{ color: theme.palette.text.primary }} />
+        )}
       </ListItemIcon>
       <ListItemText className="custom-nav-text" primary={item.name} />
       {counter > 0 && (

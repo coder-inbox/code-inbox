@@ -49,7 +49,12 @@ const AddLabel = () => {
             minWidth: 18,
           }}
         >
-          <AddIcon />
+          <AddIcon
+            sx={{
+              color: theme.palette.text.primary,
+              backgroundColor: theme.palette.background.paper,
+            }}
+          />
         </Box>
         <Box
           component="span"

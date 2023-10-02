@@ -70,7 +70,12 @@ const HeaderOptions = ({
           <Tooltip title="Report Spam">
             <IconButton
               onClick={() => onChangeMailFolder("spam")}
-              sx={{ padding: "6px", "& .MuiSvgIcon-root": { fontSize: 18 } }}
+              sx={{
+                padding: "6px",
+                "& .MuiSvgIcon-root": { fontSize: 18 },
+                backgroundColor: theme.palette.background.paper,
+                color: theme.palette.text.primary,
+              }}
             >
               <ReportIcon />
             </IconButton>
@@ -81,7 +86,12 @@ const HeaderOptions = ({
           <Tooltip title="Archive">
             <IconButton
               onClick={() => onChangeMailFolder("archived")}
-              sx={{ padding: "6px", "& .MuiSvgIcon-root": { fontSize: 18 } }}
+              sx={{
+                padding: "6px",
+                "& .MuiSvgIcon-root": { fontSize: 18 },
+                backgroundColor: theme.palette.background.paper,
+                color: theme.palette.text.primary,
+              }}
             >
               <ArchiveIcon />
             </IconButton>
@@ -92,7 +102,12 @@ const HeaderOptions = ({
           <Tooltip title="Delete">
             <IconButton
               onClick={() => onChangeMailFolder("trash")}
-              sx={{ padding: "6px", "& .MuiSvgIcon-root": { fontSize: 18 } }}
+              sx={{
+                padding: "6px",
+                "& .MuiSvgIcon-root": { fontSize: 18 },
+                backgroundColor: theme.palette.background.paper,
+                color: theme.palette.text.primary,
+              }}
             >
               <DeleteIcon />
             </IconButton>
@@ -113,7 +128,12 @@ const HeaderOptions = ({
         <Tooltip title="Labels">
           <IconButton
             onClick={onShowLabels}
-            sx={{ padding: "6px", "& .MuiSvgIcon-root": { fontSize: 18 } }}
+            sx={{
+              padding: "6px",
+              "& .MuiSvgIcon-root": { fontSize: 18 },
+              backgroundColor: theme.palette.background.paper,
+              color: theme.palette.text.primary,
+            }}
           >
             <LabelIcon />
           </IconButton>
@@ -151,7 +171,12 @@ const HeaderOptions = ({
         <Tooltip title="Move to">
           <IconButton
             onClick={onShowFolders}
-            sx={{ padding: "6px", "& .MuiSvgIcon-root": { fontSize: 18 } }}
+            sx={{
+              padding: "6px",
+              "& .MuiSvgIcon-root": { fontSize: 18 },
+              backgroundColor: theme.palette.background.paper,
+              color: theme.palette.text.primary,
+            }}
           >
             <FolderIcon />
           </IconButton>
@@ -168,7 +193,15 @@ const HeaderOptions = ({
             key={index}
             value={item.id}
             onClick={() => onClickFolderOption(item)}
-            sx={{ fontSize: 16, "&:hover": { backgroundColor: "transparent" } }}
+            sx={{
+              fontSize: 16,
+              "&:hover": {
+                backgroundColor: theme.palette.background.default,
+                color: theme.palette.text.primary,
+              },
+              backgroundColor: theme.palette.background.paper,
+              color: theme.palette.text.primary,
+            }}
           >
             <Box sx={{ display: "flex", alignItems: "center", width: 1 }}>
               <Box>{item.icon}</Box>

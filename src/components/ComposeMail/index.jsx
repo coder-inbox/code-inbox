@@ -14,13 +14,13 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import LaunchIcon from "@mui/icons-material/Launch";
 import SendIcon from "@mui/icons-material/Send";
 import { composeMail } from "@app/store/mailAppReducer/actions";
-import FilePicker from "../FilePicker";
+import FilePicker from "@app/components/FilePicker";
 import AppTextInput from "@app/components/AppTextInput";
 import { isValidEmail } from "@app/components/Helper";
 import CustomCard from "@app/components/CustomCard";
 import CustomCardContent from "@app/components/CustomCardContent";
 import CustomCardHeader from "@app/components/CustomCardHeader";
-import EmojiPicker from "../MailDetail/EmojiPicker";
+import EmojiPicker from "@app/components/MailDetail/EmojiPicker";
 import { alpha, useTheme } from "@mui/material/styles";
 import { useDispatch } from "react-redux";
 const ComposeMail = ({
@@ -181,6 +181,7 @@ const ComposeMail = ({
           height: "100%",
           transition: "all 0.3s ease",
           backgroundColor: theme.palette.popupColor.main,
+          borderRadius: 0,
           boxShadow:
             "0px 11px 15px -7px rgba(0,0,0,0.2),0px 24px 38px 3px rgba(0,0,0,0.14),0px 9px 46px 8px rgba(0,0,0,0.12)",
           "&.card-minimise": {
@@ -438,7 +439,12 @@ const ComposeMail = ({
               <Box>
                 <Tooltip title="Delete">
                   <IconButton onClick={onDiscardMail}>
-                    <DeleteIcon />
+                    <DeleteIcon
+                      sx={{
+                        color: theme.palette.text.primary,
+                        backgroundColor: theme.palette.background.paper,
+                      }}
+                    />
                   </IconButton>
                 </Tooltip>
               </Box>

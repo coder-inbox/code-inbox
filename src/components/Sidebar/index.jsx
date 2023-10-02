@@ -32,24 +32,6 @@ import SocialIcon from "@mui/icons-material/People";
 import ForumsIcon from "@mui/icons-material/Forum";
 import EmailIcon from "@mui/icons-material/Email";
 
-const folderList = [
-  { id: 1, name: "All Mail", slug: "all", icon: <MailOutlineIcon /> },
-  { id: 2, name: "Inbox", slug: "inbox", icon: <MoveToInboxIcon /> },
-  { id: 3, name: "Sent", slug: "sent", icon: <SendIcon /> },
-  { id: 4, name: "Drafts", slug: "drafts", icon: <DraftsIcon /> },
-  { id: 5, name: "Spam", slug: "spam", icon: <ReportIcon /> },
-  { id: 6, name: "Trash", slug: "trash", icon: <DeleteIcon /> },
-  { id: 7, name: "Archived", slug: "archived", icon: <ArchiveIcon /> },
-  { id: 8, name: "Promotions", slug: "promotions", icon: <EmailIcon /> },
-  { id: 9, name: "Personal", slug: "personal", icon: <PersonalIcon /> },
-  { id: 10, name: "Social", slug: "social", icon: <SocialIcon /> },
-  { id: 11, name: "Forums", slug: "forums", icon: <ForumsIcon /> },
-];
-
-const filterOptions = [
-  { id: 1, name: "Starred", slug: "starred", icon: <StarIcon /> },
-];
-
 const Sidebar = ({ width, onOpenComposeDialog, onClickSendMail }) => {
   const {
     isSideBarCollapsed,
@@ -61,6 +43,156 @@ const Sidebar = ({ width, onOpenComposeDialog, onClickSendMail }) => {
   } = useSelector(({ mailApp }) => mailApp);
   const dispatch = useDispatch();
   const theme = useTheme();
+
+  const folderList = [
+    {
+      id: 1,
+      name: "All Mail",
+      slug: "all",
+      icon: (
+        <MailOutlineIcon
+          sx={{
+            color: theme.palette.text.primary,
+          }}
+        />
+      ),
+    },
+    {
+      id: 2,
+      name: "Inbox",
+      slug: "inbox",
+      icon: (
+        <MoveToInboxIcon
+          sx={{
+            color: theme.palette.text.primary,
+          }}
+        />
+      ),
+    },
+    {
+      id: 3,
+      name: "Sent",
+      slug: "sent",
+      icon: (
+        <SendIcon
+          sx={{
+            color: theme.palette.text.primary,
+          }}
+        />
+      ),
+    },
+    {
+      id: 4,
+      name: "Drafts",
+      slug: "drafts",
+      icon: (
+        <DraftsIcon
+          sx={{
+            color: theme.palette.text.primary,
+          }}
+        />
+      ),
+    },
+    {
+      id: 5,
+      name: "Spam",
+      slug: "spam",
+      icon: (
+        <ReportIcon
+          sx={{
+            color: theme.palette.text.primary,
+          }}
+        />
+      ),
+    },
+    {
+      id: 6,
+      name: "Trash",
+      slug: "trash",
+      icon: (
+        <DeleteIcon
+          sx={{
+            color: theme.palette.text.primary,
+          }}
+        />
+      ),
+    },
+    {
+      id: 7,
+      name: "Archived",
+      slug: "archived",
+      icon: (
+        <ArchiveIcon
+          sx={{
+            color: theme.palette.text.primary,
+          }}
+        />
+      ),
+    },
+    {
+      id: 8,
+      name: "Promotions",
+      slug: "promotions",
+      icon: (
+        <EmailIcon
+          sx={{
+            color: theme.palette.text.primary,
+          }}
+        />
+      ),
+    },
+    {
+      id: 9,
+      name: "Personal",
+      slug: "personal",
+      icon: (
+        <PersonalIcon
+          sx={{
+            color: theme.palette.text.primary,
+          }}
+        />
+      ),
+    },
+    {
+      id: 10,
+      name: "Social",
+      slug: "social",
+      icon: (
+        <SocialIcon
+          sx={{
+            color: theme.palette.text.primary,
+          }}
+        />
+      ),
+    },
+    {
+      id: 11,
+      name: "Forums",
+      slug: "forums",
+      icon: (
+        <ForumsIcon
+          sx={{
+            color: theme.palette.text.primary,
+          }}
+        />
+      ),
+    },
+  ];
+
+  const filterOptions = [
+    {
+      id: 1,
+      name: "Starred",
+      slug: "starred",
+      icon: (
+        <StarIcon
+          sx={{
+            color: theme.palette.text.primary,
+          }}
+        />
+      ),
+    },
+  ];
 
   useEffect(() => {
     dispatch(getLabelsList());
@@ -110,6 +242,8 @@ const Sidebar = ({ width, onOpenComposeDialog, onClickSendMail }) => {
         borderRight: `solid 1px ${theme.palette.borderColor.main}`,
         overflowY: "auto",
         transition: "all 0.3s ease",
+        color: theme.palette.text.primary,
+        backgroundColor: theme.palette.background.default,
       }}
     >
       <Box

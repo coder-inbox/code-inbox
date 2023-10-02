@@ -77,7 +77,14 @@ const MailDetail = ({ width, onClickForwardMail }) => {
 
   return (
     <>
-      <PerfectScrollbar style={{ flex: 1, "& > div": { height: "100%" } }}>
+      <PerfectScrollbar
+        style={{
+          flex: 1,
+          "& > div": { height: "100%" },
+          backgroundColor: theme.palette.background.paper,
+          color: theme.palette.text.primary,
+        }}
+      >
         <DetailHeader selectedMail={selectedMail} labelsList={labelsList} />
 
         <Box sx={{ display: "flex", flexDirection: "column" }}>
@@ -101,7 +108,7 @@ const MailDetail = ({ width, onClickForwardMail }) => {
                   textOverflow: "ellipsis",
                   whiteSpace: "nowrap",
                   width: "100%",
-                  color: theme.palette.common.dark,
+                  color: theme.palette.text.primary,
                 }}
               >
                 {subject}
