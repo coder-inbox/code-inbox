@@ -74,7 +74,7 @@ const AppSelectBox = (props) => {
             <MenuItem key={index} value={valueKey ? item[valueKey] : item}>
               {item[labelKey]}
             </MenuItem>
-          )
+          ),
         )}
       </Select>
       {helperText && (

@@ -18,19 +18,19 @@ const Services = () => {
   const howItWorksData = {
     title: "🛠️ How It Works?",
     description:
-      "Learn how our platform operates and delivers daily algorithm insights to registered users.",
+      "Learn how our platform operates and delivers scheduled algorithm insights to registered users.",
     services: [
       {
         icon: <VerifiedUserIcon fontSize="large" />,
         heading: "User Registration",
         description:
-          "Start by registering as a user on our platform to access daily algorithm insights.",
+          "Start by registering as a user on our platform to access scheduled algorithm insights.",
       },
       {
         icon: <EmailIcon fontSize="large" />,
-        heading: "Daily Algorithm Emails",
+        heading: "Scheduled Algorithm Emails",
         description:
-          "After registration, subscribe to receive daily algorithm insights delivered to your inbox.",
+          "After registration, subscribe to receive scheduled algorithm insights delivered to your inbox.",
       },
       {
         icon: <SchoolIcon fontSize="large" />,

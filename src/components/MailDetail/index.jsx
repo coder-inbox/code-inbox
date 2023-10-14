@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import Box from "@mui/material/Box";
 import { useDispatch, useSelector } from "react-redux";
 import { replyToMail } from "@app/store/mailAppReducer/actions";
@@ -20,6 +20,8 @@ import { useTheme } from "@mui/material/styles";
 import PhotoIcon from "@mui/icons-material/Photo";
 import GetAppIcon from "@mui/icons-material/GetApp";
 import DOMPurify from "dompurify";
+import hljs from "highlight.js";
+import "highlight.js/styles/dark.css";
 
 export const cleanEmailBody = (body) => {
   if (!body) return "";
@@ -75,7 +77,16 @@ const MailDetail = ({ width, onClickForwardMail }) => {
 
   const { subject, labels, from, to, date, body, replyThread, attachments } =
     selectedMail;
+  const codeRef = useRef(null);
 
+  useEffect(() => {
+    if (codeRef.current) {
+      const codeBlocks = codeRef.current.querySelectorAll("pre code");
+      codeBlocks.forEach((block) => {
+        hljs.highlightBlock(block);
+      });
+    }
+  }, [body]);
   return (
     <Box
       sx={{
@@ -190,6 +201,7 @@ const MailDetail = ({ width, onClickForwardMail }) => {
                   dangerouslySetInnerHTML={{
                     __html: cleanEmailBody(body),
                   }}
+                  ref={codeRef}
                 />
 
                 {attachments?.length > 0 && onShowAttachments(attachments)}

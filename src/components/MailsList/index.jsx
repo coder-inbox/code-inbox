@@ -19,7 +19,7 @@ const MailsList = ({
 }) => {
   const dispatch = useDispatch();
   const { loading, mailsList, labelsList } = useSelector(
-    ({ mailApp }) => mailApp
+    ({ mailApp }) => mailApp,
   );
   const [checkedMails, setCheckedMails] = useState([]);
   const totalMails = mailsList.length;

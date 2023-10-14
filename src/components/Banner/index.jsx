@@ -14,6 +14,9 @@ import {
 import EmailIcon from "@mui/icons-material/Email";
 import EmojiObjectsIcon from "@mui/icons-material/EmojiObjects";
 import CodeIcon from "@mui/icons-material/Code";
+import DeveloperModeIcon from "@mui/icons-material/DeveloperMode";
+import DescriptionIcon from "@mui/icons-material/Description";
+import BuildIcon from "@mui/icons-material/Build";
 import { useNavigate } from "react-router-dom";
 
 const Banner = () => {
@@ -24,7 +27,7 @@ const Banner = () => {
   const heroData = {
     paragraphs: [
       "Discover a new algorithm every day with our intuitive learning platform.",
-      " Get comprehensive explanations and real-world code examples for each algorithm.",
+      "Get comprehensive explanations and real-world code examples for each algorithm.",
     ],
     features: [
       {
@@ -42,7 +45,7 @@ const Banner = () => {
             }}
           />
         ),
-        text: "Daily Algorithm Insights",
+        text: "Scheduled Algorithm Insights",
       },
       {
         icon: (
@@ -79,6 +82,60 @@ const Banner = () => {
           />
         ),
         text: "Practical Code Samples",
+      },
+      {
+        icon: (
+          <DeveloperModeIcon
+            fontSize="large"
+            sx={{
+              float: "left",
+              display: "block",
+              padding: theme.spacing(2),
+              background: "black",
+              color: "#fff",
+              borderRadius: "50%",
+              marginRight: theme.spacing(2),
+              fontSize: "20px",
+            }}
+          />
+        ),
+        text: "Code Syntax Highlighting",
+      },
+      {
+        icon: (
+          <DescriptionIcon
+            fontSize="large"
+            sx={{
+              float: "left",
+              display: "block",
+              padding: theme.spacing(2),
+              background: "purple",
+              color: "#fff",
+              borderRadius: "50%",
+              marginRight: theme.spacing(2),
+              fontSize: "20px",
+            }}
+          />
+        ),
+        text: "Rich Text Box",
+      },
+      {
+        icon: (
+          <BuildIcon
+            fontSize="large"
+            sx={{
+              float: "left",
+              display: "block",
+              padding: theme.spacing(2),
+              background: "orange",
+              color: "#fff",
+              borderRadius: "50%",
+              marginRight: theme.spacing(2),
+              fontSize: "20px",
+            }}
+          />
+        ),
+        text: "Code Execution",
       },
     ],
   };

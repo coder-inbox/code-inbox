@@ -20,7 +20,7 @@ import { useNavigate } from "react-router-dom";
 const Login = () => {
   const nylas = useNylas();
   const { loading, currentUser, auth_url, error, message } = useSelector(
-    (state) => state.auth
+    (state) => state.auth,
   );
   const theme = useTheme();
   const navigate = useNavigate();

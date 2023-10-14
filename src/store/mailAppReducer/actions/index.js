@@ -7,14 +7,14 @@ export const toggleSidebarCollapsed = createAsyncThunk(
   "mailbox/toggleSidebarCollapsed",
   async (value) => {
     return value;
-  }
+  },
 );
 
 export const setFilterType = createAsyncThunk(
   "mailbox/setFilterType",
   async (filterType) => {
     return filterType;
-  }
+  },
 );
 
 export const searchEmails = createAsyncThunk(
@@ -32,14 +32,14 @@ export const searchEmails = createAsyncThunk(
         };
         const response = await axios.get(
           `${baseURL}/nylas/search-emails`,
-          config
+          config,
         );
         return response.data;
       }
     } catch (error) {
       return rejectWithValue(error.response?.data || "Something went wrong");
     }
-  }
+  },
 );
 
 export const getLabelsList = createAsyncThunk(
@@ -59,7 +59,7 @@ export const getLabelsList = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response?.data || "Something went wrong");
     }
-  }
+  },
 );
 
 export const addNewLabel = createAsyncThunk(
@@ -76,13 +76,13 @@ export const addNewLabel = createAsyncThunk(
       const response = await axios.post(
         `${baseURL}/nylas/labels`,
         label,
-        config
+        config,
       );
       return label;
     } catch (error) {
       return rejectWithValue(error.response?.data || "Something went wrong");
     }
-  }
+  },
 );
 
 export const deleteLabel = createAsyncThunk(
@@ -98,13 +98,13 @@ export const deleteLabel = createAsyncThunk(
       };
       const response = await axios.delete(
         `${baseURL}/nylas/labels/${labelId}`,
-        config
+        config,
       );
       return labelId;
     } catch (error) {
       return rejectWithValue(error.response?.data || "Something went wrong");
     }
-  }
+  },
 );
 
 export const updateLabel = createAsyncThunk(
@@ -116,7 +116,7 @@ export const updateLabel = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response?.data || "Something went wrong");
     }
-  }
+  },
 );
 
 export const getContactsList = createAsyncThunk(
@@ -136,7 +136,7 @@ export const getContactsList = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response?.data || "Something went wrong");
     }
-  }
+  },
 );
 
 export const addNewContact = createAsyncThunk(
@@ -150,7 +150,7 @@ export const addNewContact = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response?.data || "Something went wrong");
     }
-  }
+  },
 );
 
 export const removeContact = createAsyncThunk(
@@ -162,7 +162,7 @@ export const removeContact = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response?.data || "Something went wrong");
     }
-  }
+  },
 );
 
 export const getMailsList = createAsyncThunk(
@@ -182,7 +182,7 @@ export const getMailsList = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response?.data || "Something went wrong");
     }
-  }
+  },
 );
 
 export const updateMailsFolder = createAsyncThunk(
@@ -199,13 +199,13 @@ export const updateMailsFolder = createAsyncThunk(
       const response = await axios.put(
         `${baseURL}/nylas/folders`,
         mailIds,
-        config
+        config,
       );
       return mailIds;
     } catch (error) {
       return rejectWithValue(error.response?.data || "Something went wrong");
     }
-  }
+  },
 );
 
 export const updateMailsLabel = createAsyncThunk(
@@ -217,7 +217,7 @@ export const updateMailsLabel = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response?.data || "Something went wrong");
     }
-  }
+  },
 );
 
 export const updateFvrtStatus = createAsyncThunk(
@@ -229,7 +229,7 @@ export const updateFvrtStatus = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response?.data || "Something went wrong");
     }
-  }
+  },
 );
 
 export const updateReadStatus = createAsyncThunk(
@@ -241,7 +241,7 @@ export const updateReadStatus = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response?.data || "Something went wrong");
     }
-  }
+  },
 );
 
 export const updateImprtntStatus = createAsyncThunk(
@@ -253,7 +253,7 @@ export const updateImprtntStatus = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response?.data || "Something went wrong");
     }
-  }
+  },
 );
 
 export const composeMail = createAsyncThunk(
@@ -270,7 +270,7 @@ export const composeMail = createAsyncThunk(
       const response = await axios.post(
         `${baseURL}/nylas/send-email`,
         mail,
-        config
+        config,
       );
       if (getState().mailbox.filterType.selectedFolder === "sent") {
         return response.data;
@@ -278,7 +278,7 @@ export const composeMail = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response?.data || "Something went wrong");
     }
-  }
+  },
 );
 
 export const getSelectedMail = createAsyncThunk(
@@ -298,7 +298,7 @@ export const getSelectedMail = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response?.data || "Something went wrong");
     }
-  }
+  },
 );
 
 export const updateSelectedMail = createAsyncThunk(
@@ -310,7 +310,7 @@ export const updateSelectedMail = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response?.data || "Something went wrong");
     }
-  }
+  },
 );
 
 export const replyToMail = createAsyncThunk(
@@ -327,13 +327,13 @@ export const replyToMail = createAsyncThunk(
       const response = await axios.post(
         `${baseURL}/nylas/reply-email`,
         mail,
-        config
+        config,
       );
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || "Something went wrong");
     }
-  }
+  },
 );
 
 export const executeCode = createAsyncThunk(
@@ -350,18 +350,18 @@ export const executeCode = createAsyncThunk(
       const response = await axios.post(
         `${baseURL}/nylas/execute-code`,
         { code, language_id },
-        config
+        config,
       );
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || "Something went wrong");
     }
-  }
+  },
 );
 
 export const nullifySelectedMail = createAsyncThunk(
   "mailbox/nullifySelectedMail",
   async () => {
     return null;
-  }
+  },
 );

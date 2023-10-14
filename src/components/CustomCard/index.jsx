@@ -5,7 +5,7 @@ import { Box, Card, useTheme } from "@mui/material";
 const getBackgroundStyle = (
   backgroundColor,
   backgroundImage,
-  gradientDirection
+  gradientDirection,
 ) => {
   if (backgroundImage)
     return {
@@ -50,7 +50,7 @@ const getOverlayStyle = (overlay) => {
         backgroundColor: firstColor,
         backgroundImage: overlay.direction
           ? `linear-gradient(${overlay.direction}, ${overlay.colors.join(
-              ", "
+              ", ",
             )})`
           : `linear-gradient(${overlay.colors.join(", ")})`,
         opacity: overlay.opacity,
@@ -71,7 +71,7 @@ const CustomCard = ({
   const backgroundStyles = getBackgroundStyle(
     backgroundColor,
     backgroundImage,
-    gradientDirection
+    gradientDirection,
   );
   const overlayStyles = getOverlayStyle(overlay);
 

@@ -160,7 +160,7 @@ const MailCodeExecute = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const judge0LanguageId = languages.find(
-      (lang) => lang.name === language
+      (lang) => lang.name === language,
     )?.judge0Id;
 
     dispatch(executeCode({ code: code, language_id: judge0LanguageId }));

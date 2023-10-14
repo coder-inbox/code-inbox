@@ -18,41 +18,38 @@ import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import PersonIcon from "@mui/icons-material/Person";
 import ThreePIcon from "@mui/icons-material/ThreeP";
 import { useTheme } from "@mui/material/styles";
-import { programmingLanguages } from "@app/pages/ProgrammingLanguages";
+import {
+  programmingLanguages,
+  schedulingOptions,
+} from "@app/pages/ProgrammingLanguages";
 import { SetPersonalInfo } from "@app/store/authReducer/actions";
 
 const EditInfo = ({ open, onCloseDialog }) => {
   const theme = useTheme();
   const [personalInfoValues, setPersonalInfoValues] = useState({
-    firstName: "",
-    lastName: "",
+    fullName: "",
     bio: "",
     programmingLanguage: "",
+    schedule: "",
   });
 
   const [errorValues, setErrorValues] = useState({
-    firstNameError: "",
+    fullNameError: "",
     lastNameError: "",
     bioError: "",
-    programmingLanguageError: "",
+    scheduleError: "",
   });
 
   const dispatch = useDispatch();
 
   const onSubmit = (event) => {
     event.preventDefault();
-    const { firstName, lastName, bio, programmingLanguage } =
-      personalInfoValues;
+    const { fullName, bio, programmingLanguage, schedule } = personalInfoValues;
 
-    if (!firstName) {
+    if (!fullName) {
       setErrorValues({
         ...errorValues,
-        firstNameError: "This field is required!",
-      });
-    } else if (!lastName) {
-      setErrorValues({
-        ...errorValues,
-        lastNameError: "This field is required!",
+        fullNameError: "This field is required!",
       });
     } else if (!bio) {
       setErrorValues({
@@ -64,9 +61,14 @@ const EditInfo = ({ open, onCloseDialog }) => {
         ...errorValues,
         programmingLanguageError: "This field is required!",
       });
+    } else if (!schedule) {
+      setErrorValues({
+        ...errorValues,
+        scheduleError: "This field is required!",
+      });
     } else {
       dispatch(
-        SetPersonalInfo({ firstName, lastName, bio, programmingLanguage })
+        SetPersonalInfo({ fullName, bio, programmingLanguage, schedule }),
       );
       dispatch(onCloseDialog());
     }
@@ -109,24 +111,24 @@ const EditInfo = ({ open, onCloseDialog }) => {
                     mb: 0,
                   }}
                 >
-                  First Name
+                  Full Name
                   <span style={{ color: "red", marginLeft: "5px" }}>*</span>
                 </Typography>
                 <AppTextInput
                   fullWidth
-                  value={personalInfoValues.firstName}
+                  value={personalInfoValues.fullName}
                   onChange={(e) => {
                     setPersonalInfoValues({
                       ...personalInfoValues,
-                      firstName: e.target.value,
+                      fullName: e.target.value,
                     });
-                    setErrorValues({ ...errorValues, firstNameError: "" });
+                    setErrorValues({ ...errorValues, fullNameError: "" });
                   }}
-                  helperText={errorValues.firstNameError}
+                  helperText={errorValues.fullNameError}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start" variant="standard">
-                        <IconButton aria-label="First Name" edge="end" disabled>
+                        <IconButton aria-label="Full Name" edge="end" disabled>
                           <PermIdentityIcon
                             style={{ color: theme.palette.text.primary }}
                           />
@@ -142,59 +144,7 @@ const EditInfo = ({ open, onCloseDialog }) => {
                   }}
                 />
               </Grid>
-              <Grid item xs={12} md={5.8}>
-                <Typography
-                  variant="body1"
-                  sx={{
-                    color: theme.palette.text.primary,
-                    ml: theme.spacing(1),
-                    mb: 0,
-                    mt: { md: 0, sm: theme.spacing(-3), xs: theme.spacing(-3) },
-                  }}
-                >
-                  Last Name
-                  <span style={{ color: "red", marginLeft: "5px" }}>*</span>
-                </Typography>
-                <AppTextInput
-                  fullWidth
-                  variant="outlined"
-                  value={personalInfoValues.lastName}
-                  onChange={(e) => {
-                    setPersonalInfoValues({
-                      ...personalInfoValues,
-                      lastName: e.target.value,
-                    });
-                    setErrorValues({ ...errorValues, lastNameError: "" });
-                  }}
-                  helperText={errorValues.lastNameError}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start" variant="standard">
-                        <IconButton aria-label="Last Name" edge="end" disabled>
-                          <PersonIcon
-                            style={{ color: theme.palette.text.primary }}
-                          />
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  }}
-                  sx={{
-                    width: "100%",
-                    marginRight: theme.spacing(2),
-                    backgroundColor: theme.palette.background.paper,
-                    fontSize: "16px",
-                  }}
-                />
-              </Grid>
-            </GridContainer>
-          </Box>
-          <Box
-            display="flex"
-            flexDirection={{ xs: "column", md: "row" }}
-            alignItems="center"
-            mb={{ xs: 6, md: 5 }}
-          >
-            <GridContainer>
+
               <Grid item xs={12} md={5.8}>
                 <Typography
                   variant="body1"
@@ -238,6 +188,15 @@ const EditInfo = ({ open, onCloseDialog }) => {
                   }}
                 />
               </Grid>
+            </GridContainer>
+          </Box>
+          <Box
+            display="flex"
+            flexDirection={{ xs: "column", md: "row" }}
+            alignItems="center"
+            mb={{ xs: 6, md: 5 }}
+          >
+            <GridContainer>
               <Grid item xs={12} md={5.8}>
                 <Typography
                   variant="body1"
@@ -270,6 +229,42 @@ const EditInfo = ({ open, onCloseDialog }) => {
                   {programmingLanguages.map((language) => (
                     <MenuItem key={language} value={language}>
                       {language}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </Grid>
+              <Grid item xs={12} md={5.8}>
+                <Typography
+                  variant="body1"
+                  sx={{
+                    color: theme.palette.text.primary,
+                    ml: theme.spacing(7),
+                    mb: 0,
+                    mt: { md: 0, sm: theme.spacing(-3), xs: theme.spacing(-3) },
+                  }}
+                >
+                  Schedule
+                  <span style={{ color: "red", marginLeft: "5px" }}>*</span>
+                </Typography>
+                <Select
+                  labelId="schedule-label"
+                  label="schedule-label"
+                  value={personalInfoValues.schedule}
+                  onChange={(e) => {
+                    setPersonalInfoValues({
+                      ...personalInfoValues,
+                      schedule: e.target.value,
+                    });
+                    setErrorValues({
+                      ...errorValues,
+                      scheduleError: "",
+                    });
+                  }}
+                  require
+                >
+                  {schedulingOptions.map((schedule) => (
+                    <MenuItem key={schedule} value={schedule}>
+                      {schedule}
                     </MenuItem>
                   ))}
                 </Select>

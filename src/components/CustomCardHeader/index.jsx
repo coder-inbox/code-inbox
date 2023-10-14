@@ -19,195 +19,197 @@ const ActionsMenu = ({ actions, actionHandler, icon }) => {
   );
 };
 
-const CustomCardHeader = React.forwardRef(function CustomCardHeader(
-  props,
-  ref
-) {
-  const {
-    icon,
-    avatar,
-    title,
-    titleProps,
-    subTitle,
-    subTitleProps,
-    actions,
-    actionMenuClassName,
-    actionHandleIcon,
-    actionHandler,
-    actionsPos,
-    actionsShowOnHover,
-    backgroundColor,
-    gradientDirection,
-    separator,
-    alignCenter,
-    children,
-    className,
-    ...rest
-  } = props;
+const CustomCardHeader = React.forwardRef(
+  function CustomCardHeader(props, ref) {
+    const {
+      icon,
+      avatar,
+      title,
+      titleProps,
+      subTitle,
+      subTitleProps,
+      actions,
+      actionMenuClassName,
+      actionHandleIcon,
+      actionHandler,
+      actionsPos,
+      actionsShowOnHover,
+      backgroundColor,
+      gradientDirection,
+      separator,
+      alignCenter,
+      children,
+      className,
+      ...rest
+    } = props;
 
-  const [showActions, setActionsVisibility] = useState(false);
-  const [contentWidth, setContentWidth] = useState(0);
-  const contentHeadProps = {
-    icon,
-    avatar,
-    title,
-    titleProps,
-    subTitle,
-    subTitleProps,
-  };
+    const [showActions, setActionsVisibility] = useState(false);
+    const [contentWidth, setContentWidth] = useState(0);
+    const contentHeadProps = {
+      icon,
+      avatar,
+      title,
+      titleProps,
+      subTitle,
+      subTitleProps,
+    };
 
-  const theme = useTheme();
+    const theme = useTheme();
 
-  const headerRootStyle = {
-    display: "flex",
-    flexDirection: "row",
-    position: "relative",
-    zIndex: 1,
-    padding: theme.spacing(3),
-    ...(separator.color && {
-      ...separatorStyles,
+    const headerRootStyle = {
+      display: "flex",
+      flexDirection: "row",
+      position: "relative",
+      zIndex: 1,
+      padding: theme.spacing(3),
+      ...(separator.color && {
+        ...separatorStyles,
+        "& + .custom-card-content": {
+          paddingTop: theme.spacing(3),
+        },
+      }),
       "& + .custom-card-content": {
-        paddingTop: theme.spacing(3),
+        paddingTop: 0,
       },
-    }),
-    "& + .custom-card-content": {
-      paddingTop: 0,
-    },
-  };
+    };
 
-  const titleStyle = {
-    position: "relative",
-  };
+    const titleStyle = {
+      position: "relative",
+    };
 
-  const subTitleStyle = {
-    marginBottom: 0,
-    marginTop: theme.spacing(1),
-    fontSize: 12,
-    color: theme.palette.text.disabled,
-    letterSpacing: 0.4,
-    fontWeight: theme.typography.fontWeightRegular,
-  };
+    const subTitleStyle = {
+      marginBottom: 0,
+      marginTop: theme.spacing(1),
+      fontSize: 12,
+      color: theme.palette.text.disabled,
+      letterSpacing: 0.4,
+      fontWeight: theme.typography.fontWeightRegular,
+    };
 
-  const showHideActionStyles = {
-    "0%": {
-      animationTimingFunction: "ease-in",
-      opacity: 0,
-      transform: "scale(0)",
-    },
-    "100%": {
-      opacity: 1,
-      transform: "scale(1)",
-    },
-  };
+    const showHideActionStyles = {
+      "0%": {
+        animationTimingFunction: "ease-in",
+        opacity: 0,
+        transform: "scale(0)",
+      },
+      "100%": {
+        opacity: 1,
+        transform: "scale(1)",
+      },
+    };
 
-  const actionMenuStyle = {
-    "& button": {
-      padding: 0,
-      height: 40,
-      width: 40,
-      minWidth: "auto",
-      fontSize: 10,
-    },
-  };
+    const actionMenuStyle = {
+      "& button": {
+        padding: 0,
+        height: 40,
+        width: 40,
+        minWidth: "auto",
+        fontSize: 10,
+      },
+    };
 
-  const actionMenuDefaultStyle = {
-    display: "flex",
-    alignItems: "center",
-    marginLeft: theme.spacing(1),
-    "& .custom-action-menu-hover": {
-      top: "50%",
-    },
-  };
+    const actionMenuDefaultStyle = {
+      display: "flex",
+      alignItems: "center",
+      marginLeft: theme.spacing(1),
+      "& .custom-action-menu-hover": {
+        top: "50%",
+      },
+    };
 
-  const actionMenuAbsoluteStyle = {
-    position: "relative",
-    paddingTop: theme.spacing(4),
-    "& .custom-action-menu": {
+    const actionMenuAbsoluteStyle = {
+      position: "relative",
+      paddingTop: theme.spacing(4),
+      "& .custom-action-menu": {
+        position: "absolute",
+        top: 0,
+        right: 0,
+        left: 0,
+        zIndex: 2,
+        textAlign: "center",
+        transition: "all 0.25s ease",
+      },
+    };
+
+    const actionMenuHoverStyle = {
       position: "absolute",
       top: 0,
       right: 0,
-      left: 0,
       zIndex: 2,
-      textAlign: "center",
       transition: "all 0.25s ease",
-    },
-  };
+    };
 
-  const actionMenuHoverStyle = {
-    position: "absolute",
-    top: 0,
-    right: 0,
-    zIndex: 2,
-    transition: "all 0.25s ease",
-  };
+    let showHideActionClass = showActions
+      ? showActionStyles
+      : showHideActionStyles;
+    if (actionsPos === "default") {
+      showHideActionClass = showActions
+        ? actionMenuDefaultStyle
+        : actionMenuStyle;
+    }
 
-  let showHideActionClass = showActions
-    ? showActionStyles
-    : showHideActionStyles;
-  if (actionsPos === "default") {
-    showHideActionClass = showActions
-      ? actionMenuDefaultStyle
-      : actionMenuStyle;
-  }
+    const headerRootClasses = alignCenter
+      ? ` ${className} custom-header-root ${
+          separator.color ? " custom-separator" : ""
+        }`
+      : ` ${className} custom-header-root${
+          separator.color ? " custom-separator" : ""
+        }`;
 
-  const headerRootClasses = alignCenter
-    ? ` ${className} custom-header-root ${
-        separator.color ? " custom-separator" : ""
-      }`
-    : ` ${className} custom-header-root${
-        separator.color ? " custom-separator" : ""
-      }`;
+    const menuRootClasses = actionsShowOnHover
+      ? `custom-action-menu-hover ${showHideActionClass} ${actionMenuClassName}`
+      : `${actionMenuStyle} custom-action-menu ${actionMenuClassName}`;
 
-  const menuRootClasses = actionsShowOnHover
-    ? `custom-action-menu-hover ${showHideActionClass} ${actionMenuClassName}`
-    : `${actionMenuStyle} custom-action-menu ${actionMenuClassName}`;
+    const menuRootActionsClasses = actionsShowOnHover
+      ? actionsPos === "default"
+        ? `${actionMenuDefaultStyle}`
+        : ""
+      : `${actionMenuDefaultStyle}`;
 
-  const menuRootActionsClasses = actionsShowOnHover
-    ? actionsPos === "default"
-      ? `${actionMenuDefaultStyle}`
-      : ""
-    : `${actionMenuDefaultStyle}`;
+    useImperativeHandle(ref, () => ({
+      onHeaderMouseEntered: () => {
+        if (actionsShowOnHover) setActionsVisibility(true);
+      },
+      onHeaderMouseLeft: () => {
+        if (actionsShowOnHover) setActionsVisibility(false);
+      },
+    }));
 
-  useImperativeHandle(ref, () => ({
-    onHeaderMouseEntered: () => {
-      if (actionsShowOnHover) setActionsVisibility(true);
-    },
-    onHeaderMouseLeft: () => {
-      if (actionsShowOnHover) setActionsVisibility(false);
-    },
-  }));
+    useEffect(() => {
+      setContentWidth(contentRef.current ? contentRef.current.clientWidth : 0);
+    }, [actionsPos, actionsShowOnHover]);
 
-  useEffect(() => {
-    setContentWidth(contentRef.current ? contentRef.current.clientWidth : 0);
-  }, [actionsPos, actionsShowOnHover]);
+    return (
+      <Box sx={headerRootStyle} {...rest}>
+        {(icon || avatar || title || subTitle) && (
+          <CustomContentHead
+            titleStyle={titleStyle}
+            subTitleStyle={subTitleStyle}
+            {...contentHeadProps}
+          />
+        )}
 
-  return (
-    <Box sx={headerRootStyle} {...rest}>
-      {(icon || avatar || title || subTitle) && (
-        <CustomContentHead
-          titleStyle={titleStyle}
-          subTitleStyle={subTitleStyle}
-          {...contentHeadProps}
-        />
-      )}
-
-      {(actions.length > 0 || children) && (
-        <Box ref={contentRef} sx={menuRootActionsClasses}>
-          {children}
-          {actions.length > 0 && (
-            <Box style={{ marginLeft: theme.spacing(2) }} sx={menuRootClasses}>
-              <ActionsMenu
-                actions={actions}
-                actionHandler={actionHandler}
-                icon={actionHandleIcon}
-              />
-            </Box>
-          )}
-        </Box>
-      )}
-    </Box>
-  );
-});
+        {(actions.length > 0 || children) && (
+          <Box ref={contentRef} sx={menuRootActionsClasses}>
+            {children}
+            {actions.length > 0 && (
+              <Box
+                style={{ marginLeft: theme.spacing(2) }}
+                sx={menuRootClasses}
+              >
+                <ActionsMenu
+                  actions={actions}
+                  actionHandler={actionHandler}
+                  icon={actionHandleIcon}
+                />
+              </Box>
+            )}
+          </Box>
+        )}
+      </Box>
+    );
+  },
+);
 
 CustomCardHeader.propTypes = {
   icon: PropTypes.element,

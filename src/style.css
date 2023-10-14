@@ -12,7 +12,22 @@
 .banner-img {
   animation: linear-move 5s infinite linear;
 }
-
+.preview {
+  padding: 1rem;
+  margin-top: 1rem;
+}
+.wrapper-class {
+  padding: 1rem;
+  border: 1px solid #ccc;
+}
+.editor-class {
+  background-color: lightgray;
+  padding: 1rem;
+  border: 1px solid #ccc;
+}
+.toolbar-class {
+  border: 1px solid #ccc;
+}
 @keyframes linear-move {
   0% {
     transform: translateY(0);

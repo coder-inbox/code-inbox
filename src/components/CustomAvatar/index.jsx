@@ -13,7 +13,7 @@ const getRandomColor = () => {
 const CustomAvatar = React.forwardRef(
   (
     { src, alt, className, color, size, phCharLength, children, ...rest },
-    ref
+    ref,
   ) => {
     const colorClass = color === "random" ? getRandomColor() : color;
     const sizeClass = size || "small"; // Default to "small" if no size is provided
@@ -100,7 +100,7 @@ const CustomAvatar = React.forwardRef(
         {!src && !children && alt ? placeHolderChar : children}
       </Avatar>
     );
-  }
+  },
 );
 
 CustomAvatar.propTypes = {

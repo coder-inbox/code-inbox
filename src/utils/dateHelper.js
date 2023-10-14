@@ -17,7 +17,7 @@ export function formatPreviewDate(date, showInterval = false) {
     0,
     0,
     0,
-    0
+    0,
   );
   const lastWeek = new Date(
     today.getFullYear(),
@@ -26,7 +26,7 @@ export function formatPreviewDate(date, showInterval = false) {
     0,
     0,
     0,
-    0
+    0,
   );
   const thisYear = new Date(today.getFullYear(), 0, 1);
   let intervalStr = "";

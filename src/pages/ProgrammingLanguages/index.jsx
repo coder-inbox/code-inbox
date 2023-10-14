@@ -147,19 +147,38 @@ export const programmingLanguages = [
   "xBase",
 ];
 
+export const schedulingOptions = [
+  "Every hour",
+  "Every day",
+  "Every week",
+  "Every month",
+];
+
 const ProgrammingLanguages = () => {
   const [selectedLanguage, setSelectedLanguage] = useState("");
+  const [selectedSchedule, setSelectedSchedule] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleChange = (event) => {
+  const handleChangeLanguage = (event) => {
     setSelectedLanguage(event.target.value);
   };
 
-  const handleSubscribe = () => {
+  const handleChangeSchedule = (event) => {
+    setSelectedSchedule(event.target.value);
+  };
+
+  const handleSubscribe = (event) => {
     event.preventDefault();
     localStorage.setItem("language", selectedLanguage);
-    dispatch(updateLanguage(selectedLanguage));
+    localStorage.setItem("schedule", selectedSchedule);
+    dispatch(
+      updateLanguage({
+        language: selectedLanguage,
+        schedule: selectedSchedule,
+        welcome: true,
+      }),
+    );
     navigate("/mail");
   };
 
@@ -187,8 +206,8 @@ const ProgrammingLanguages = () => {
             labelId="language-label"
             label="Choose a programming language"
             value={selectedLanguage}
-            onChange={handleChange}
-            require
+            onChange={handleChangeLanguage}
+            required
           >
             {programmingLanguages.map((language) => (
               <MenuItem key={language} value={language}>
@@ -197,11 +216,27 @@ const ProgrammingLanguages = () => {
             ))}
           </Select>
         </FormControl>
+        <FormControl sx={{ minWidth: 300, marginTop: 20 }}>
+          <InputLabel id="schedule-label">Choose a schedule</InputLabel>
+          <Select
+            labelId="schedule-label"
+            label="Choose a schedule"
+            value={selectedSchedule}
+            onChange={handleChangeSchedule}
+            required
+          >
+            {schedulingOptions.map((schedule) => (
+              <MenuItem key={schedule} value={schedule}>
+                {schedule}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
         <Button
           variant="contained"
           color="primary"
           type="submit"
-          disabled={!selectedLanguage}
+          disabled={!selectedLanguage || !selectedSchedule}
           sx={{ marginTop: 15 }}
         >
           Subscribe
