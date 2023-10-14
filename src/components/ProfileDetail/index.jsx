@@ -8,10 +8,11 @@ import {
   Typography,
   Button,
 } from "@mui/material";
-import DialpadIcon from "@mui/icons-material/Dialpad";
+import CodeIcon from "@mui/icons-material/Code";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import EmailIcon from "@mui/icons-material/Email";
 import PersonIcon from "@mui/icons-material/Person";
+import ScheduleIcon from "@mui/icons-material/Schedule";
 import { useTheme } from "@mui/material/styles";
 
 const ProfileDetail = ({ currentUser, user }) => {
@@ -90,7 +91,7 @@ const ProfileDetail = ({ currentUser, user }) => {
         </ListItem>
         <ListItem>
           <ListItemIcon sx={{ minWidth: "10px", marginRight: "20px" }}>
-            <DialpadIcon
+            <CodeIcon
               sx={{
                 color: theme.palette.text.primary,
                 backgroundColor: theme.palette.background.paper,
@@ -99,8 +100,23 @@ const ProfileDetail = ({ currentUser, user }) => {
           </ListItemIcon>
           <ListItemText
             sx={{ color: theme.palette.text.primary }}
-            primary="Phone Number"
-            secondary={user?.phone_number}
+            primary="Programming Language"
+            secondary={user?.programming_language}
+          />
+        </ListItem>
+        <ListItem>
+          <ListItemIcon sx={{ minWidth: "10px", marginRight: "20px" }}>
+            <ScheduleIcon
+              sx={{
+                color: theme.palette.text.primary,
+                backgroundColor: theme.palette.background.paper,
+              }}
+            />
+          </ListItemIcon>
+          <ListItemText
+            sx={{ color: theme.palette.text.primary }}
+            primary="Email Schedule"
+            secondary={user?.schedule}
           />
         </ListItem>
       </List>

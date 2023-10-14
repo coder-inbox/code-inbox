@@ -88,7 +88,7 @@ const AppHeader = ({ viewMode, handleViewModeChange }) => {
         selectedLabel: "",
         searchText: searchTextState,
         page: 0,
-      })
+      }),
     );
   };
   const [darkTheme, setDarkTheme] = useState(() => {

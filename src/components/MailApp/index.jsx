@@ -17,7 +17,7 @@ const MailApp = () => {
   const dispatch = useDispatch();
   const [openComposeDialog, setOpenComposeDialog] = useState(false);
   const { isSideBarCollapsed, selectedMail } = useSelector(
-    (state) => state.mailApp
+    (state) => state.mailApp,
   );
   const [mailTo, setMailTo] = useState("");
   const [mailContent, setMailContent] = useState("");

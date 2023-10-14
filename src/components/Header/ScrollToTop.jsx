@@ -17,7 +17,7 @@ const ScrollToTop = (props) => {
       {
         behavior: "smooth",
       },
-      500
+      500,
     );
   };
 

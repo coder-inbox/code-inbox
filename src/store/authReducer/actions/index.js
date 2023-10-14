@@ -19,7 +19,7 @@ export const userLogin = createAsyncThunk(
         return rejectWithValue(error.message);
       }
     }
-  }
+  },
 );
 
 export const userGetToken = createAsyncThunk(
@@ -41,7 +41,7 @@ export const userGetToken = createAsyncThunk(
         return rejectWithValue(error.message);
       }
     }
-  }
+  },
 );
 
 export const uploadPicture = createAsyncThunk(
@@ -60,13 +60,13 @@ export const uploadPicture = createAsyncThunk(
       const response = await axios.put(
         `${baseURL}/user/profile-image`,
         formData,
-        config
+        config,
       );
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || "Something went wrong");
     }
-  }
+  },
 );
 
 export const userLogout = createAsyncThunk(
@@ -83,7 +83,7 @@ export const userLogout = createAsyncThunk(
       const response = await axios.post(
         `${baseURL}/user/logout`,
         { token: localStorage.getItem("token") },
-        config
+        config,
       );
       return response.data;
     } catch (error) {
@@ -93,14 +93,14 @@ export const userLogout = createAsyncThunk(
         return rejectWithValue(error.message);
       }
     }
-  }
+  },
 );
 
 export const SetPersonalInfo = createAsyncThunk(
   "user/profile",
   async (
-    { firstName, lastName, bio, programmingLanguage },
-    { rejectWithValue }
+    { fullName, bio, programmingLanguage, schedule },
+    { rejectWithValue },
   ) => {
     try {
       const config = {
@@ -113,11 +113,12 @@ export const SetPersonalInfo = createAsyncThunk(
       const response = await axios.put(
         `${baseURL}/user/profile`,
         {
-          full_name: `${firstName} ${lastName}`,
+          full_name: fullName,
           bio: bio,
           programming_language: programmingLanguage,
+          schedule: schedule,
         },
-        config
+        config,
       );
       return response.data;
     } catch (error) {
@@ -127,12 +128,12 @@ export const SetPersonalInfo = createAsyncThunk(
         return rejectWithValue(error.message);
       }
     }
-  }
+  },
 );
 
 export const updateLanguage = createAsyncThunk(
   "user/language",
-  async (language, { getState, rejectWithValue }) => {
+  async ({ language, schedule, welcome }, { getState, rejectWithValue }) => {
     try {
       const config = {
         headers: {
@@ -141,14 +142,15 @@ export const updateLanguage = createAsyncThunk(
           email: JSON.parse(localStorage.getItem("user")).email,
         },
       };
+      console.log(language, schedule, welcome);
       const response = await axios.put(
         `${baseURL}/user/language`,
-        { language: language },
-        config
+        { language: language, schedule: schedule, welcome: welcome },
+        config,
       );
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || "Something went wrong");
     }
-  }
+  },
 );

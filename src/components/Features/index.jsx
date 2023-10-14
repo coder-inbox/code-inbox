@@ -30,9 +30,9 @@ const featuresData = {
           }}
         />
       ),
-      heading: "Daily Algorithm Insights",
+      heading: "Scheduled Algorithm Insights",
       description:
-        "Receive a new algorithm to learn every day with clear explanations and code samples.",
+        "Receive a fresh algorithm for learning every hour, every day, and more, with clear explanations and accompanying code samples.",
     },
     {
       icon: (

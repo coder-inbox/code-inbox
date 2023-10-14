@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -23,6 +23,16 @@ import CustomCardHeader from "@app/components/CustomCardHeader";
 import EmojiPicker from "@app/components/MailDetail/EmojiPicker";
 import { alpha, useTheme } from "@mui/material/styles";
 import { useDispatch } from "react-redux";
+import { EditorState } from "draft-js";
+import { Editor } from "react-draft-wysiwyg";
+import { convertToHTML } from "draft-convert";
+
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+
+import Container from "@mui/material/Container";
+import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
+
 const ComposeMail = ({
   openDialog,
   onCloseComposeDialog,
@@ -46,6 +56,14 @@ const ComposeMail = ({
   const [toError, setToError] = useState("");
   const [ccError, setCcError] = useState("");
   const [bccError, setBccError] = useState("");
+  const [editorState, setEditorState] = useState(() =>
+    EditorState.createEmpty(),
+  );
+
+  useEffect(() => {
+    let html = convertToHTML(editorState.getCurrentContent());
+    setMessage(html);
+  }, [editorState]);
 
   const dialogWidth = {
     xs: "90%",
@@ -399,67 +417,77 @@ const ComposeMail = ({
                   }}
                 />
               </Box>
-              <Box mb={3}>
-                <AppTextInput
-                  multiline
-                  rows={10}
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  sx={{
-                    color: theme.palette.text.primary,
-                    "& .MuiOutlinedInput-root": {
-                      borderRadius: 0,
-                    },
-                    "& .MuiInput-underline:before": {
-                      borderBottom: `1px solid ${theme.palette.borderColor.main}`,
-                    },
-                  }}
-                />
-              </Box>
-            </Box>
-            {attachments.length > 0 && (
-              <Box display="flex" alignItems="center" flexWrap="wrap" mb={2}>
-                {attachments.map((item, index) => (
-                  <Box mr={2} mb={2} key={index}>
-                    <Chip
-                      label={item.file.name}
-                      onDelete={() => onDeleteAttachments(item.id)}
-                    />
-                  </Box>
-                ))}
-              </Box>
-            )}
-            <Box mt="auto" display="flex" alignItems="center">
-              <Box ml={2} sx={{ ml: 2 }}>
-                <EmojiPicker onPickEmoji={onPickEmoji} />
-              </Box>
-              <Box ml={2} sx={{ ml: 2 }}>
-                <FilePicker onAddAttachments={onAddAttachments} />
-              </Box>
-              <Box>
-                <Tooltip title="Delete">
-                  <IconButton onClick={onDiscardMail}>
-                    <DeleteIcon
-                      sx={{
-                        color: theme.palette.text.primary,
-                        backgroundColor: theme.palette.background.paper,
-                      }}
-                    />
-                  </IconButton>
-                </Tooltip>
-              </Box>
-              <Button
-                variant="contained"
-                onClick={checkValidations}
+              <Box
                 sx={{
-                  ml: "auto",
-                  "& .MuiSvgIcon-root": {
-                    marginRight: 6,
+                  color: theme.palette.text.primary,
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: 0,
+                  },
+                  "& .MuiInput-underline:before": {
+                    borderBottom: `1px solid ${theme.palette.borderColor.main}`,
                   },
                 }}
               >
-                <SendIcon /> Send
-              </Button>
+                <Editor
+                  editorState={editorState}
+                  onEditorStateChange={setEditorState}
+                  wrapperClassName="wrapper-class"
+                  editorClassName="editor-class"
+                  toolbarClassName="toolbar-class"
+                />
+
+                <Box mt={10}>
+                  {attachments.length > 0 && (
+                    <Box
+                      display="flex"
+                      alignItems="center"
+                      flexWrap="wrap"
+                      mb={2}
+                    >
+                      {attachments.map((item, index) => (
+                        <Box mr={2} mb={2} key={index}>
+                          <Chip
+                            label={item.file.name}
+                            onDelete={() => onDeleteAttachments(item.id)}
+                          />
+                        </Box>
+                      ))}
+                    </Box>
+                  )}
+                  <Box mt="auto" display="flex" alignItems="center">
+                    <Box ml={2} sx={{ ml: 2 }}>
+                      <EmojiPicker onPickEmoji={onPickEmoji} />
+                    </Box>
+                    <Box ml={2} sx={{ ml: 2 }}>
+                      <FilePicker onAddAttachments={onAddAttachments} />
+                    </Box>
+                    <Box>
+                      <Tooltip title="Delete">
+                        <IconButton onClick={onDiscardMail}>
+                          <DeleteIcon
+                            sx={{
+                              color: theme.palette.text.primary,
+                              backgroundColor: theme.palette.background.paper,
+                            }}
+                          />
+                        </IconButton>
+                      </Tooltip>
+                    </Box>
+                    <Button
+                      variant="contained"
+                      onClick={checkValidations}
+                      sx={{
+                        ml: "auto",
+                        "& .MuiSvgIcon-root": {
+                          marginRight: 6,
+                        },
+                      }}
+                    >
+                      <SendIcon /> Send
+                    </Button>
+                  </Box>
+                </Box>
+              </Box>
             </Box>
           </Box>
         </CustomCardContent>

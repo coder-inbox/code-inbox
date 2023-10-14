@@ -207,7 +207,7 @@ const Sidebar = ({ width, onOpenComposeDialog, onClickSendMail }) => {
         selectedLabel: "",
         searchText: "",
         page: 0,
-      })
+      }),
     );
   };
 
@@ -219,7 +219,7 @@ const Sidebar = ({ width, onOpenComposeDialog, onClickSendMail }) => {
         selectedLabel: "",
         searchText: "",
         page: 0,
-      })
+      }),
     );
   };
 
@@ -231,7 +231,7 @@ const Sidebar = ({ width, onOpenComposeDialog, onClickSendMail }) => {
         selectedLabel: label,
         searchText: "",
         page: 0,
-      })
+      }),
     );
   };
 

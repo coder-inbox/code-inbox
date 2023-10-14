@@ -112,12 +112,12 @@ const mailAppReducer = createSlice({
     },
     updateLabelItemSuccess: (state, action) => {
       state.labelsList = state.labelsList.map((item) =>
-        item.id === action.payload.id ? action.payload : item
+        item.id === action.payload.id ? action.payload : item,
       );
     },
     deleteLabelItemSuccess: (state, action) => {
       state.labelsList = state.labelsList.filter(
-        (item) => item.id !== action.payload
+        (item) => item.id !== action.payload,
       );
     },
     getContactsListSuccess: (state, action) => {
@@ -128,7 +128,7 @@ const mailAppReducer = createSlice({
     },
     removeContactSuccess: (state, action) => {
       state.contactsList = state.contactsList.filter(
-        (contact) => contact.email !== action.payload.email
+        (contact) => contact.email !== action.payload.email,
       );
     },
     getMailsListSuccess: (state, action) => {
@@ -138,7 +138,7 @@ const mailAppReducer = createSlice({
     },
     updateMailFolderSuccess: (state, action) => {
       const updatedList = state.mailsList.filter(
-        (mail) => !action.payload.includes(mail.id)
+        (mail) => !action.payload.includes(mail.id),
       );
       state.mailsList = updatedList;
       state.totalMailCount = state.totalMailCount - action.payload.length;
@@ -148,26 +148,26 @@ const mailAppReducer = createSlice({
       const updatedList = state.mailsList.map((mail) =>
         mailIds.includes(mail.id)
           ? action.payload.find((selectedMail) => selectedMail.id === mail.id)
-          : mail
+          : mail,
       );
       state.mailsList = updatedList;
     },
     updateFavoriteStatusSuccess: (state, action) => {
       const { mailIds, status } = action.payload;
       state.mailsList = state.mailsList.map((mail) =>
-        mailIds.includes(mail.id) ? { ...mail, favorite: status } : mail
+        mailIds.includes(mail.id) ? { ...mail, favorite: status } : mail,
       );
     },
     updateReadStatusSuccess: (state, action) => {
       const { mailIds, status } = action.payload;
       state.mailsList = state.mailsList.map((mail) =>
-        mailIds.includes(mail.id) ? { ...mail, read: status } : mail
+        mailIds.includes(mail.id) ? { ...mail, read: status } : mail,
       );
     },
     updateImportantStatusSuccess: (state, action) => {
       const { mailIds, status } = action.payload;
       state.mailsList = state.mailsList.map((mail) =>
-        mailIds.includes(mail.id) ? { ...mail, important: status } : mail
+        mailIds.includes(mail.id) ? { ...mail, important: status } : mail,
       );
     },
     composeMailSuccess: (state, action) => {
@@ -223,7 +223,7 @@ const mailAppReducer = createSlice({
 
           // Check if the outer "labels" array contains the desired label name
           const outerLabelMatch = itemObject.labels.some(
-            (label) => label.name === action.payload.selectedFolder
+            (label) => label.name === action.payload.selectedFolder,
           );
 
           // Check if the "starred" field in the outer object is true
@@ -235,7 +235,7 @@ const mailAppReducer = createSlice({
           if (itemObject.messages && itemObject.messages.length > 0) {
             // Convert each message to a plain object
             itemObject.messages = itemObject.messages.map((message) =>
-              Object.assign({}, message)
+              Object.assign({}, message),
             );
 
             // Check if any message within the "messages" array has the desired label name
@@ -246,7 +246,7 @@ const mailAppReducer = createSlice({
               return (
                 (message.labels &&
                   message.labels.some(
-                    (label) => label.name === action.payload.selectedFolder
+                    (label) => label.name === action.payload.selectedFolder,
                   )) ||
                 isInnerStarred
               );
@@ -267,7 +267,7 @@ const mailAppReducer = createSlice({
         const filteredArray = paginateArray(
           filteredData,
           state.filterType.page,
-          10
+          10,
         );
         state.mailsList = filteredArray;
         state.selectedMail = null;
@@ -302,7 +302,7 @@ const mailAppReducer = createSlice({
         ];
 
         const filteredLabels = action.payload.filter(
-          (label) => !standard_labels.includes(label.name)
+          (label) => !standard_labels.includes(label.name),
         );
         state.labelsList = filteredLabels;
       })
@@ -337,7 +337,7 @@ const mailAppReducer = createSlice({
       .addCase(deleteLabel.fulfilled, (state, action) => {
         state.loading.deleteLabel = false;
         state.labelsList = state.labelsList.filter(
-          (item) => item.id !== action.payload
+          (item) => item.id !== action.payload,
         );
       })
       .addCase(deleteLabel.rejected, (state, action) => {
@@ -354,7 +354,7 @@ const mailAppReducer = createSlice({
       .addCase(updateLabel.fulfilled, (state, action) => {
         state.loading.updateLabel = false;
         state.labelsList = state.labelsList.map((item) =>
-          item.id === action.payload.id ? action.payload : item
+          item.id === action.payload.id ? action.payload : item,
         );
       })
       .addCase(updateLabel.rejected, (state, action) => {
@@ -401,7 +401,7 @@ const mailAppReducer = createSlice({
       .addCase(removeContact.fulfilled, (state, action) => {
         state.loading.removeContact = false;
         state.contactsList = state.contactsList.filter(
-          (contact) => contact.email !== action.payload.email
+          (contact) => contact.email !== action.payload.email,
         );
       })
       .addCase(removeContact.rejected, (state, action) => {
@@ -438,7 +438,7 @@ const mailAppReducer = createSlice({
       .addCase(updateMailsFolder.fulfilled, (state, action) => {
         state.loading.updateMailsFolder = false;
         const updatedList = state.mailsList.filter(
-          (mail) => !action.payload.includes(mail.id)
+          (mail) => !action.payload.includes(mail.id),
         );
         state.mailsList = updatedList;
         state.totalMailCount = state.totalMailCount - action.payload.length;
@@ -460,7 +460,7 @@ const mailAppReducer = createSlice({
         const updatedList = state.mailsList.map((mail) =>
           mailIds.includes(mail.id)
             ? action.payload.find((selectedMail) => selectedMail.id === mail.id)
-            : mail
+            : mail,
         );
         state.mailsList = updatedList;
       })
@@ -479,7 +479,7 @@ const mailAppReducer = createSlice({
         state.loading.updateFavoriteStatus = false;
         const { mailIds, status } = action.payload;
         state.mailsList = state.mailsList.map((mail) =>
-          mailIds.includes(mail.id) ? { ...mail, favorite: status } : mail
+          mailIds.includes(mail.id) ? { ...mail, favorite: status } : mail,
         );
       })
       .addCase(updateFvrtStatus.rejected, (state, action) => {
@@ -497,7 +497,7 @@ const mailAppReducer = createSlice({
         state.loading.updateReadStatus = false;
         const { mailIds, status } = action.payload;
         state.mailsList = state.mailsList.map((mail) =>
-          mailIds.includes(mail.id) ? { ...mail, read: status } : mail
+          mailIds.includes(mail.id) ? { ...mail, read: status } : mail,
         );
       })
       .addCase(updateReadStatus.rejected, (state, action) => {
@@ -515,7 +515,7 @@ const mailAppReducer = createSlice({
         state.loading.updateImportantStatus = false;
         const { mailIds, status } = action.payload;
         state.mailsList = state.mailsList.map((mail) =>
-          mailIds.includes(mail.id) ? { ...mail, important: status } : mail
+          mailIds.includes(mail.id) ? { ...mail, important: status } : mail,
         );
       })
       .addCase(updateImprtntStatus.rejected, (state, action) => {

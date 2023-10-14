@@ -226,7 +226,7 @@ const darkTheme = createTheme({
 
 const App = () => {
   const { loading, currentUser, error, selectedTheme } = useSelector(
-    (state) => state.auth
+    (state) => state.auth,
   );
   const [currentAuthUser, setCurrentAuthUser] = useState(currentUser);
   const [currentLanguage, setCurrentLanguage] = useState(null);
@@ -237,7 +237,7 @@ const App = () => {
   const Login = lazy(() => import("@app/pages/Login"));
   const MailApp = lazy(() => import("@app/pages/MailApp"));
   const ProgrammingLanguages = lazy(() =>
-    import("@app/pages/ProgrammingLanguages")
+    import("@app/pages/ProgrammingLanguages"),
   );
 
   const nylas = useNylas();

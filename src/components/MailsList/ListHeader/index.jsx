@@ -58,7 +58,7 @@ const ListHeader = ({ checkedMails, setCheckedMails }) => {
   const theme = useTheme();
 
   const { mailsList, labelsList, filterType, totalMailCount } = useSelector(
-    ({ mailApp }) => mailApp
+    ({ mailApp }) => mailApp,
   );
 
   useEffect(() => {
@@ -91,7 +91,7 @@ const ListHeader = ({ checkedMails, setCheckedMails }) => {
       setFilterType({
         ...filterType,
         page: value,
-      })
+      }),
     );
   };
 

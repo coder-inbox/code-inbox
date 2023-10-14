@@ -53,7 +53,7 @@ const CustomLabelForm = ({ title, anchorEl, onClose, label, saveLabel }) => {
         ...label,
         name,
         color,
-      })
+      }),
     );
     closeFormPopup();
   };

@@ -23,5 +23,5 @@ createRoot(document.getElementById("root")).render(
         </NylasProvider>
       </PersistGate>
     </Provider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );
