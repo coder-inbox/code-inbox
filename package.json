@@ -16,7 +16,7 @@
     "@mui/material": "^5.14.10",
     "@nylas/nylas-react": "^0.1.0",
     "@reduxjs/toolkit": "^1.9.5",
-    "axios": "^1.5.0",
+    "axios": "^1.6.2",
     "dompurify": "^3.0.5",
     "draft-convert": "^2.1.13",
     "draft-js": "^0.11.7",
